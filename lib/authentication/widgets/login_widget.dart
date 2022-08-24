@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -56,10 +57,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                 style: ElevatedButton.styleFrom(
                     minimumSize:const Size.fromHeight(50),
                     elevation: 6,
+                  primary: Colors.orange
                 ),
                 icon:const Icon(Icons.lock_open,size: 30),
-                onPressed: (){
-                  _authService.signInAnonymously();
+                onPressed:()async{
+                  await Provider.of<AuthService>(context,listen: false).signInAnonymously();
                 },
                 label:const Text('Sign In',
                     style: TextStyle(fontSize: 24))),
@@ -71,11 +73,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                 style: ElevatedButton.styleFrom(
                   minimumSize:const Size.fromHeight(50),
                   elevation: 6,
-                  primary: Colors.white70
+                  primary: Colors.lightBlueAccent
                 ),
                 icon:Image.asset('assets/images/google.png',height: 30),
-                onPressed: (){
-                  _authService.signInAnonymously();
+                onPressed:()async{
+                await Provider.of<AuthService>(context,listen: false).signInwithGoogle();
                 },
                 label:Text('Sign In with Google',
                     style: TextStyle(fontSize: 24,color: Colors.black54))),
