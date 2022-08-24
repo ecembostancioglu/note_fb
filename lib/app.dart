@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/presentation/view/auth_page.dart';
+import 'package:todo_fb/authentication/service/auth_service.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -14,24 +16,26 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360,690),
         builder: (context,widget)
-        => MaterialApp(
-         debugShowCheckedModeBanner: false,
-         localizationsDelegates: context.localizationDelegates,
-         supportedLocales: context.supportedLocales,
-         locale: context.locale,
-           home: FutureBuilder(
-            future: _initialization,
-            builder: (context,snapshot){
-             if(snapshot.hasError){
-              return const Center(
-                child: Text('Something went wrong'),);
-            }else if(snapshot.hasData){
-              return AuthPage();
-            }
-            return const Center(
-                child:CircularProgressIndicator());
-          }
-      ),
-    ));
+        => ChangeNotifierProvider(
+            create: (context)=>AuthService(),
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              home: FutureBuilder(
+              future: _initialization,
+              builder: (context,snapshot){
+                if(snapshot.hasError){
+                  return const Center(
+                    child: Text('Something went wrong'),);
+                }else if(snapshot.hasData){
+                  return AuthPage();
+                }
+                return const Center(
+                    child:CircularProgressIndicator());
+              }
+          ),
+        ),));
   }
 }

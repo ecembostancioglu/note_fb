@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../../notes/presentation/view/home_page.dart';
 import '../../widgets/login_widget.dart';
 
 class AuthPage extends StatelessWidget {
@@ -6,9 +8,15 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: LoginWidget(),
-    );
+    return StreamBuilder<User?>(
+      stream:FirebaseAuth.instance.authStateChanges(),
+        builder:(context,snapshot){
+       if(snapshot.hasData){
+         return HomePage();
+       }else{
+         return LoginWidget();
+       }
+        } );
   }
 }
 
