@@ -7,10 +7,18 @@ class AuthService extends ChangeNotifier{
   final _firebaseAuth=FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<User?> signInAnonymously() async {
-    final userCredentials=await _firebaseAuth.signInAnonymously();
-    notifyListeners();
-    return userCredentials.user;
+  Future<User?> createUserWithEmailandPassword(String email,String password)async{
+    final userCredential=await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return userCredential.user;
+  }
+
+  Future<User?> signInWithEmailandPassword(String email,String password)async{
+    final userCredential=await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return userCredential.user;
+
+
   }
 
   Future<void> signInwithGoogle() async {
