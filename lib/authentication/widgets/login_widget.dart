@@ -15,13 +15,23 @@ class LoginWidget extends StatefulWidget {
 class _LoginWidgetState extends State<LoginWidget> {
 
   FormStatus _formStatus=FormStatus.signIn;
-  TextEditingController emailController=TextEditingController();
-  TextEditingController passwordController=TextEditingController();
+  TextEditingController signInEmailController=TextEditingController();
+  TextEditingController registeremailController=TextEditingController();
+  TextEditingController signInPasswordController=TextEditingController();
+  TextEditingController registerPasswordController=TextEditingController();
   TextEditingController controlPasswordController=TextEditingController();
   final List<String> errors=['Demo Errors'];
   bool _controlObscureText=true;
   bool _obscureText=true;
   bool _signInObscureText=true;
+
+  @override
+  void dispose() {
+    signInEmailController.dispose();
+    signInPasswordController.dispose();
+    controlPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +53,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           Text('Sign In'),
           SizedBox(height: 20.h),
           TextFormField(
-            controller: emailController,
+            controller: signInEmailController,
             keyboardType: TextInputType.emailAddress,
             cursorColor: Colors.white,
             textInputAction:TextInputAction.next,
@@ -53,7 +63,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           SizedBox(height: 20.h),
           TextFormField(
-            controller: passwordController,
+            controller: signInPasswordController,
             cursorColor: Colors.white,
             obscureText: _signInObscureText,
             textInputAction:TextInputAction.done,
@@ -81,7 +91,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               icon:const Icon(Icons.lock_open,size: 30),
               onPressed:()async{
                 await Provider.of<AuthService>(context,listen: false).signInWithEmailandPassword(
-                    emailController.text, passwordController.text);
+                    signInEmailController.text, signInPasswordController.text);
               },
               label:const Text('Sign In',
                   style: TextStyle(fontSize: 24))),
@@ -131,7 +141,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           Text('Register'),
           SizedBox(height: 20.h),
           TextFormField(
-            controller: emailController,
+            controller: registeremailController,
             keyboardType: TextInputType.emailAddress,
             cursorColor: Colors.white,
             textInputAction:TextInputAction.next,
@@ -141,7 +151,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           SizedBox(height: 20.h),
           TextFormField(
-            controller: passwordController,
+            controller: registerPasswordController,
             cursorColor: Colors.white,
             obscureText: _obscureText,
             textInputAction:TextInputAction.done,
@@ -184,7 +194,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               icon:const Icon(Icons.lock_open,size: 30),
               onPressed:()async{
                 await Provider.of<AuthService>(context,listen: false).signInWithEmailandPassword(
-                    emailController.text, passwordController.text);
+                    signInEmailController.text, signInPasswordController.text);
               },
               label:const Text('Sign Up',
                   style: TextStyle(fontSize: 24))),
