@@ -15,3 +15,5 @@ class AppConstants{
   static const String kShortPassError='Password is too short';
   static const String kMatchPassError='Passwords don\'t match';
 }
+
+enum FormStatus {signIn,register}
