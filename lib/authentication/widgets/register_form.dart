@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_fb/authentication/presentation/view/verify_email.dart';
 import 'package:todo_fb/authentication/widgets/sign_in_form.dart';
 import '../../constants/app_constants.dart';
 import '../service/auth_service.dart';
@@ -136,6 +137,8 @@ class _BuildRegisterFormState extends State<BuildRegisterForm> {
                           .createUserWithEmailandPassword(
                           registeremailController.text,
                           registerPasswordController.text);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context)=>VerifyEmailPage()));
                     }
                   },
                   label:const Text('Sign Up',
