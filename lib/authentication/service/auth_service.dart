@@ -1,8 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import '../../constants/app_constants.dart';
 
 class AuthService extends ChangeNotifier{
 
@@ -16,11 +15,9 @@ class AuthService extends ChangeNotifier{
   }
 
   Future<User?> signInWithEmailandPassword(String email,String password)async{
-    final userCredential=await _firebaseAuth.createUserWithEmailAndPassword(
+    final userCredential=await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     return userCredential.user;
-
-
   }
 
   Future<void> signInwithGoogle() async {

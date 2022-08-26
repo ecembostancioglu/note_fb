@@ -10,6 +10,7 @@ class AuthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
         stream:FirebaseAuth.instance.authStateChanges(),
+        initialData: FirebaseAuth.instance.currentUser,
         builder:(context,snapshot){
        if(snapshot.hasData){
          return HomePage();

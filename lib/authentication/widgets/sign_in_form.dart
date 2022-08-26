@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_fb/notes/presentation/view/home_page.dart';
 import '../../constants/app_constants.dart';
 import '../service/auth_service.dart';
 import 'register_form.dart';
@@ -16,13 +17,13 @@ class BuildSignInForm extends StatefulWidget {
 class _BuildSignInFormState extends State<BuildSignInForm> {
 
   bool _signInObscureText=true;
-  final formKey=GlobalKey<FormState>();
+  final _formKey=GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        key: formKey,
+        key: _formKey,
         child: Padding(
           padding: EdgeInsets.all(20),
           child:Column(
@@ -87,12 +88,14 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
                   ),
                   icon:const Icon(Icons.lock_open,size: 30),
                   onPressed:()async{
-                    final isValidForm=formKey.currentState!.validate();
+                    final isValidForm=_formKey.currentState!.validate();
                     if(isValidForm){
                       await Provider.of<AuthService>(context,listen: false)
                           .signInWithEmailandPassword(
                           signInEmailController.text,
                           signInPasswordController.text);
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context)=>HomePage()));
                     }
 
                   },
