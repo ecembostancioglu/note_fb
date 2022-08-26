@@ -12,8 +12,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> notes=['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'];
+  List<Note> searchNotes=allNotes;
 
+  void searchNote(String query){
+    final suggestions=allNotes.where((note){
+      final noteText=note.title.toLowerCase();
+      final input=query.toLowerCase();
+
+      return noteText.contains(input);
+    }).toList();
+
+    setState(() {
+      searchNotes=suggestions;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +52,13 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Padding(
-              padding: EdgeInsets.all(20),
+              padding:EdgeInsets.all(20),
              child: Text('WELCOME'),),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: TextFormField(
-                  decoration:const InputDecoration(
+             Padding(
+                padding: EdgeInsets.all(12.0),
+                child: TextField(
+                  onChanged:searchNote,
+                  decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))
@@ -57,10 +70,11 @@ class _HomePageState extends State<HomePage> {
             Flexible(
               child: ListView.builder(
                   shrinkWrap: true,
-                itemCount: notes.length,
+                itemCount: searchNotes.length,
                   itemBuilder: (context,index){
                 return ListTile(
-                  title: Text(notes[index]),
+                  leading: Text('${searchNotes[index].id}'),
+                  title: Text(searchNotes[index].title),
                 );
               }),
             )
@@ -70,3 +84,19 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+class Note{
+  final int id;
+  final String title;
+
+  Note({required this.id,required this.title});
+}
+
+  List<Note> allNotes=[
+  Note(id: 1, title: 'One'),
+  Note(id: 2, title: 'Two'),
+  Note(id: 3, title: 'Three'),
+  Note(id: 4, title: 'Four'),
+  Note(id: 5, title: 'Five'),
+  Note(id: 6, title: 'Six'),
+];
