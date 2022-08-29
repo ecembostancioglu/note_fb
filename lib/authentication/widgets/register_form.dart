@@ -132,7 +132,7 @@ class _BuildRegisterFormState extends State<BuildRegisterForm> {
                   icon:const Icon(Icons.lock_open,size: 30),
                   onPressed:()async{
                     final isValidForm=_formKey.currentState!.validate();
-                    if(isValidForm){
+                    if(isValidForm==true){
                       await Provider.of<AuthService>(context,listen: false)
                           .createUserWithEmailandPassword(
                           userNameController.text,
@@ -141,6 +141,9 @@ class _BuildRegisterFormState extends State<BuildRegisterForm> {
                       Navigator.push(context,
                           MaterialPageRoute(
                               builder: (context)=>VerifyEmailPage()));
+                    }else{
+                      Center(
+                        child: CircularProgressIndicator(),);
                     }
                   },
                   label:const Text('Sign Up',

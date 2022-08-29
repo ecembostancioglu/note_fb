@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,7 +10,8 @@ class AuthService extends ChangeNotifier{
 
   Future<User?> createUserWithEmailandPassword(String name,String email,String password)async{
     final userCredential=await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,password: password);
+        email: email,
+        password: password);
         addUsertoFirestore(userCredential.user!);
       notifyListeners();
     return userCredential.user;
@@ -45,11 +47,6 @@ class AuthService extends ChangeNotifier{
 
   Future<void> signOut() async{
     await _firebaseAuth.signOut();
-    notifyListeners();
-  }
-
-
-  Future<void> signOutFromGoogle() async{
     await _googleSignIn.signOut();
     notifyListeners();
   }

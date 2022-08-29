@@ -19,6 +19,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
 
   bool _signInObscureText=true;
   final _formKey=GlobalKey<FormState>();
+  User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -116,8 +117,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
                       fit: BoxFit.cover),
                   onPressed:()async{
                     await Provider.of<AuthService>(context,listen: false).signInwithGoogle();
-                    FirebaseAuth? auth;
-                    if(auth != null){
+                    if(user != null){
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context)=>HomePage()));
                     }else{
