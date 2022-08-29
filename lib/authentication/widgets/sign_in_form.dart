@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -115,6 +116,15 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
                       fit: BoxFit.cover),
                   onPressed:()async{
                     await Provider.of<AuthService>(context,listen: false).signInwithGoogle();
+                    FirebaseAuth? auth;
+                    if(auth != null){
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context)=>HomePage()));
+                    }else{
+                      const Center(
+                         child: CircularProgressIndicator(),
+                      );
+                    }
                   },
                   label:Text('Sign In with Google',
                       style: TextStyle(

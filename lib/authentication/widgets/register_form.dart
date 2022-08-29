@@ -135,10 +135,12 @@ class _BuildRegisterFormState extends State<BuildRegisterForm> {
                     if(isValidForm){
                       await Provider.of<AuthService>(context,listen: false)
                           .createUserWithEmailandPassword(
+                          userNameController.text,
                           registeremailController.text,
                           registerPasswordController.text);
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context)=>VerifyEmailPage()));
+                          MaterialPageRoute(
+                              builder: (context)=>VerifyEmailPage()));
                     }
                   },
                   label:const Text('Sign Up',

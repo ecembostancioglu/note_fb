@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  AuthService auth=AuthService();
   List<Note> searchNotes=allNotes;
 
   void searchNote(String query){
@@ -35,9 +37,8 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: (){
-              AuthService auth=AuthService();
               auth.signOutFromGoogle();
-              FirebaseAuth.instance.signOut();
+              auth.signOut();
 
               Navigator.push(context,
                   MaterialPageRoute(builder: (context)=>LoginWidget()));
