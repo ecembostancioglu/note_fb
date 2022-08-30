@@ -35,7 +35,7 @@ class _SignUpButtonState extends State<SignUpButton> {
         });
       }
     }on FirebaseAuthException catch (error){
-      errorWidget(context,error.message!);
+      displayErrorToast(context,error.message!);
     }
   }
 

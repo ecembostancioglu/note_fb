@@ -36,7 +36,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
 
       }
     }on FirebaseAuthException catch (error){
-      errorWidget(context,error.message!);
+      displayErrorToast(context,error.message!);
     }
   }
 

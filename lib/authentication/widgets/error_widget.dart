@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 
-void errorWidget(BuildContext context,String description)  {
+void displayErrorToast(BuildContext context,String description)  {
    MotionToast.error(
      title:const Text('Error',
        style: TextStyle(
