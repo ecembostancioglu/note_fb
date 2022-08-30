@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:motion_toast/motion_toast.dart';
-import 'package:motion_toast/resources/arrays.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_constants.dart';
 import '../presentation/view/verify_email.dart';
 import '../service/auth_service.dart';
-
+import 'error_widget.dart';
 
 class SignUpButton extends StatefulWidget {
   const SignUpButton({
@@ -21,20 +19,6 @@ class SignUpButton extends StatefulWidget {
 }
 
 class _SignUpButtonState extends State<SignUpButton> {
-
-  void errorWidget(String description,String errorCode){
-    MotionToast.error(
-      description: Text(description),
-      title: Text(errorCode),
-      animationType: AnimationType.fromLeft,
-      position: MotionToastPosition.bottom,
-      barrierColor: Colors.black.withOpacity(0.3),
-      width: 350,
-      height:150,
-      toastDuration:const Duration(seconds: 3),
-    ).show(context);
-  }
-
 
   Future register()async{
     final isValidForm=widget._formKey.currentState!.validate();
@@ -51,8 +35,7 @@ class _SignUpButtonState extends State<SignUpButton> {
         });
       }
     }on FirebaseAuthException catch (error){
-      print(error.message);
-      errorWidget(error.message!,error.code);
+      errorWidget(context,error.message!);
     }
   }
 
