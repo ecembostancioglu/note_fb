@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_fb/authentication/presentation/view/auth_page.dart';
-import 'package:todo_fb/authentication/widgets/sign_in_form.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/notes/presentation/view/home_page.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -51,7 +51,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       final user=FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
       setState(() => canResendEmail=false);
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       setState(() => canResendEmail=true);
     }catch(e){
       print(e);
@@ -63,7 +63,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   Widget build(BuildContext context)
    => isEmailVerified
         ? HomePage()
-        :  Scaffold(
+        : Scaffold(
           body: Center(
            child: Column(
              mainAxisAlignment: MainAxisAlignment.center,
@@ -76,8 +76,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     : null,
                 label: Text('Resent Email')),
             ElevatedButton(
-                onPressed:()=>Navigator.push(context,
-                    MaterialPageRoute(builder: (context)=>BuildSignInForm())),
+                onPressed:(){
+                  Provider.of<AuthService>(context,listen: false).signOut();
+                  Navigator.of(context);
+                },
                 child: Text('Cancel'))
           ],
       ),

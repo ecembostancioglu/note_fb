@@ -2,6 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/notes/presentation/view/home_page.dart';
 import '../../constants/app_constants.dart';
@@ -21,6 +23,58 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
   final _formKey=GlobalKey<FormState>();
   User? user;
 
+  void errorWidget(String description,String errorCode){
+    MotionToast.error(
+      description: Text(description),
+      title: Text(errorCode),
+      animationType: AnimationType.fromLeft,
+      position: MotionToastPosition.bottom,
+      barrierColor: Colors.black.withOpacity(0.3),
+      width: 350,
+      height:150,
+      toastDuration:const Duration(seconds: 3),
+    ).show(context);
+  }
+
+  Future signIn() async{
+    final isValidForm=_formKey.currentState!.validate();
+    try{
+      if(isValidForm){
+        await Provider.of<AuthService>(context,listen: false)
+            .signInWithEmailandPassword(
+            signInEmailController.text,
+            signInPasswordController.text).then((_){
+          Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context)=>HomePage()));
+        });
+
+      }
+    }on FirebaseAuthException catch (error){
+      print(error.message);
+      errorWidget(error.message!,error.code);
+    }
+  }
+
+  Future signInwithGoogle() async{
+    await Provider.of<AuthService>(context,listen: false).signInwithGoogle();
+    if(user != null){
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>HomePage()));
+    }else{
+      const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+  }
+
+
+
+
+   @override
+  void initState() {
+     signInEmailController.clear();
+     signInPasswordController.clear();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,18 +143,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
                       primary: Colors.orange
                   ),
                   icon:const Icon(Icons.lock_open,size: 30),
-                  onPressed:()async{
-                    final isValidForm=_formKey.currentState!.validate();
-                    if(isValidForm){
-                      await Provider.of<AuthService>(context,listen: false)
-                          .signInWithEmailandPassword(
-                          signInEmailController.text,
-                          signInPasswordController.text);
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=>HomePage()));
-                    }
-
-                  },
+                  onPressed:signIn,
                   label:const Text('Sign In',
                       style: TextStyle(fontSize: 24))),
               SizedBox(height: 20.h),
@@ -115,17 +158,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
                   icon:Image.asset('assets/images/google.png',
                       height: 30,
                       fit: BoxFit.cover),
-                  onPressed:()async{
-                    await Provider.of<AuthService>(context,listen: false).signInwithGoogle();
-                    if(user != null){
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=>HomePage()));
-                    }else{
-                      const Center(
-                         child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
+                  onPressed:signInwithGoogle,
                   label:Text('Sign In with Google',
                       style: TextStyle(
                           fontSize: 24,

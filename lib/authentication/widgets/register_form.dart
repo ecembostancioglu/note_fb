@@ -1,11 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:todo_fb/authentication/presentation/view/verify_email.dart';
 import 'package:todo_fb/authentication/widgets/sign_in_form.dart';
 import '../../constants/app_constants.dart';
-import '../service/auth_service.dart';
+import 'sing_up_button.dart';
 
 class BuildRegisterForm extends StatefulWidget {
   const BuildRegisterForm({Key? key}) : super(key: key);
@@ -18,6 +16,16 @@ class _BuildRegisterFormState extends State<BuildRegisterForm> {
   bool _controlObscureText=true;
   bool _obscureText=true;
   final _formKey=GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    registeremailController.clear();
+    registerPasswordController.clear();
+    controlPasswordController.clear();
+    userNameController.clear();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -123,31 +131,7 @@ class _BuildRegisterFormState extends State<BuildRegisterForm> {
                 ),
               ),
               SizedBox(height: 20.h),
-              ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize:const Size.fromHeight(50),
-                      elevation: 6,
-                      primary: Colors.orange
-                  ),
-                  icon:const Icon(Icons.lock_open,size: 30),
-                  onPressed:()async{
-                    final isValidForm=_formKey.currentState!.validate();
-                    if(isValidForm==true){
-                      await Provider.of<AuthService>(context,listen: false)
-                          .createUserWithEmailandPassword(
-                          userNameController.text,
-                          registeremailController.text,
-                          registerPasswordController.text);
-                      Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context)=>VerifyEmailPage()));
-                    }else{
-                      Center(
-                        child: CircularProgressIndicator(),);
-                    }
-                  },
-                  label:const Text('Sign Up',
-                      style: TextStyle(fontSize: 24))),
+              SignUpButton(formKey: _formKey),
               SizedBox(height: 20.h),
               GestureDetector(
                 onTap: (){
@@ -168,3 +152,4 @@ class _BuildRegisterFormState extends State<BuildRegisterForm> {
     );
   }
 }
+

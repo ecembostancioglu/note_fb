@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/authentication/widgets/login_widget.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Note> searchNotes=allNotes;
+
 
   void searchNote(String query){
     final suggestions=allNotes.where((note){
@@ -36,7 +37,15 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: ()async{
-              await Provider.of<AuthService>(context,listen: false).signOut();
+              await Provider.of<AuthService>(context,listen: false).signOut().then((_)
+              {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => LoginWidget(),
+                    ),
+                        (Route route) => false);
+              });
+
             },
           )
         ],
