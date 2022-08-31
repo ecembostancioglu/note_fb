@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/authentication/widgets/login_widget.dart';
+
+import '../../widgets/add_note.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -14,7 +18,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Note> searchNotes=allNotes;
-
 
   void searchNote(String query){
     final suggestions=allNotes.where((note){
@@ -85,6 +88,15 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed:(){
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context)=>AddNote()));
+        },
+        child: Icon(Icons.add),
+
+
       ),
     );
   }

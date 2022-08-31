@@ -1,15 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_fb/notes/data/repository/database.dart';
 
 class AuthService extends ChangeNotifier{
-  final _firebaseAuth=FirebaseAuth.instance;
+  final firebaseAuth=FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<User?> createUserWithEmailandPassword(String name,String email,String password)async{
-    final userCredential=await _firebaseAuth.createUserWithEmailAndPassword(
+    final userCredential=await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password);
         addUsertoFirestore(userCredential.user!);
@@ -18,7 +17,7 @@ class AuthService extends ChangeNotifier{
   }
 
   Future<User?> signInWithEmailandPassword(String email,String password)async{
-    final userCredential=await _firebaseAuth.signInWithEmailAndPassword(
+    final userCredential=await firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     notifyListeners();
     return userCredential.user;
@@ -36,7 +35,7 @@ class AuthService extends ChangeNotifier{
           idToken: googleSignInAuthentication.idToken,
         );
         addGoogleUsertoFirestore(googleSignInAccount);
-        await _firebaseAuth.signInWithCredential(credential);
+        await firebaseAuth.signInWithCredential(credential);
       }
     } on FirebaseAuthException catch (e) {
       print(e.message);
@@ -46,7 +45,7 @@ class AuthService extends ChangeNotifier{
   }
 
   Future<void> signOut() async{
-    await _firebaseAuth.signOut();
+    await firebaseAuth.signOut();
     await _googleSignIn.signOut();
     notifyListeners();
   }
