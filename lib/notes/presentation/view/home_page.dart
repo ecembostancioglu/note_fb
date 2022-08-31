@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/authentication/widgets/login_widget.dart';
-
 import '../../widgets/add_note.dart';
 
 
@@ -17,20 +16,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Note> searchNotes=allNotes;
 
-  void searchNote(String query){
-    final suggestions=allNotes.where((note){
-      final noteText=note.title.toLowerCase();
-      final input=query.toLowerCase();
-
-      return noteText.contains(input);
-    }).toList();
-
-    setState(() {
-      searchNotes=suggestions;
-    });
-  }
+  CollectionReference ref=FirebaseFirestore.instance
+      .collection('Users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('Notes');
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +55,8 @@ class _HomePageState extends State<HomePage> {
              Padding(
                 padding: EdgeInsets.all(12.0),
                 child: TextField(
-                  onChanged:searchNote,
-                  decoration: InputDecoration(
+                  onChanged:(val){},
+                  decoration:const InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))
@@ -76,23 +66,34 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             Flexible(
-              child: ListView.builder(
-                  shrinkWrap: true,
-                itemCount: searchNotes.length,
-                  itemBuilder: (context,index){
-                return ListTile(
-                  leading: Text('${searchNotes[index].id}'),
-                  title: Text(searchNotes[index].title),
-                );
-              }),
-            )
+                child: FutureBuilder<QuerySnapshot>(
+                  future: ref.get(),
+                  builder: (context,snapshot){
+                    if(snapshot.hasData){
+                     return ListView.builder(
+                       itemCount: snapshot.data!.docs.length,
+                         itemBuilder:(context,index){
+                           return ListTile(
+                             title:Text('${snapshot.data!.docs[index]['title']}'),
+                             subtitle:Text('${snapshot.data!.docs[index]['description']}'),
+                           );
+                         });
+                    }else{
+                      return Center(
+                          child: CircularProgressIndicator());
+                    }
+                  },
+                ))
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:(){
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context)=>AddNote()));
+              MaterialPageRoute(builder: (context)=>AddNote(),)
+          ).then((value) {
+            setState(() {});
+          });
         },
         child: Icon(Icons.add),
 
@@ -101,19 +102,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-class Note{
-  final int id;
-  final String title;
-
-  Note({required this.id,required this.title});
-}
-
-  List<Note> allNotes=[
-  Note(id: 1, title: 'One'),
-  Note(id: 2, title: 'Two'),
-  Note(id: 3, title: 'Three'),
-  Note(id: 4, title: 'Four'),
-  Note(id: 5, title: 'Five'),
-  Note(id: 6, title: 'Six'),
-];

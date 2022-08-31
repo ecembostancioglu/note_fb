@@ -15,13 +15,11 @@ class _AddNoteState extends State<AddNote> {
 
   late String title;
   late String desc;
-  AuthService authService=AuthService();
-
 
   void add()async{
       CollectionReference ref=FirebaseFirestore.instance
           .collection('Users')
-          .doc(authService.firebaseAuth.currentUser!.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('Notes');
 
     var data={
