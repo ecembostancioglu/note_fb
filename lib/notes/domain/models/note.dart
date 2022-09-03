@@ -1,7 +1,7 @@
 class Note{
    String? title;
    String? description;
-  DateTime? created;
+   DateTime? created;
 
   Note({
     required this.title,

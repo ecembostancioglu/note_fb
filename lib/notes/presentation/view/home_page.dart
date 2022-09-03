@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +7,7 @@ import 'package:todo_fb/authentication/widgets/login_widget.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/note_database.dart';
 import '../../widgets/add_note.dart';
+import '../../widgets/note_view.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon:const Icon(Icons.logout),
             onPressed: ()async{
               await Provider.of<AuthService>(context,listen: false).signOut().then((_)
               {
@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                         (Route route) => false);
               });
-
             },
           )
         ],
@@ -74,13 +73,11 @@ class _HomePageState extends State<HomePage> {
                      return ListView.builder(
                        itemCount: snapshot.data!.docs.length,
                          itemBuilder:(context,index){
-                           return ListTile(
-                             title:Text('${snapshot.data!.docs[index]['title']}'),
-                             subtitle:Text('${snapshot.data!.docs[index]['description']}'),
-                           );
+                         var data=snapshot.data!.docs[index];
+                           return NoteView(data:data);
                          });
                     }else{
-                      return Center(
+                      return const Center(
                           child: CircularProgressIndicator());
                     }
                   },
@@ -103,3 +100,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+

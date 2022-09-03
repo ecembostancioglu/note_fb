@@ -58,10 +58,9 @@ Future<void> add(String title,String description,DateTime created)async{
                   child:Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding:const EdgeInsets.all(20.0),
                         child: TextFormField(
-                          controller: titleCtr,
-                          decoration: InputDecoration(
+                          decoration:const InputDecoration(
                               hintText:'Title',
                               prefixIcon: Icon(Icons.note_add)),
                           onChanged: (val){
@@ -70,9 +69,9 @@ Future<void> add(String title,String description,DateTime created)async{
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding:const EdgeInsets.all(20.0),
                         child: TextFormField(
-                          decoration:  InputDecoration(
+                          decoration:const  InputDecoration(
                               hintText:'Note Description',
                               prefixIcon: Icon(Icons.description)),
                           onChanged: (val){
@@ -87,7 +86,6 @@ Future<void> add(String title,String description,DateTime created)async{
             ),
           ),
         ),
-
     );
   }
 }
