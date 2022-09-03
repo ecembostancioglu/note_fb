@@ -4,8 +4,9 @@ class AppConstants{
   static const TR_LOCALE=Locale("tr","TR");
   static const EN_LOCALE=Locale("en","US");
   static const LANG_PATH='assets/lang';
-  String collectionPath='Notes';
-  String referencePath='Users';
+  static const String collectionPath='Notes';
+  static const String referencePath='Users';
+  static const double borderRadius=20.0;
 
 }
 

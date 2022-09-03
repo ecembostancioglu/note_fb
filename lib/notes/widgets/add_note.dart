@@ -24,8 +24,8 @@ Future<void> add(String title,String description,DateTime created)async{
        description: description,
        created: created);
    await database.setNote(
-        referencePath:AppConstants().referencePath,
-       collectionPath:AppConstants().collectionPath,
+        referencePath:AppConstants.referencePath,
+       collectionPath:AppConstants.collectionPath,
        noteAsMap:newNote.toMap());
 
    Navigator.pop(context);

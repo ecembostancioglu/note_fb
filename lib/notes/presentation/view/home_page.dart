@@ -66,8 +66,8 @@ class _HomePageState extends State<HomePage> {
             Flexible(
                 child: FutureBuilder<QuerySnapshot>(
                   future: noteDatabase.getNoteList(
-                      AppConstants().referencePath,
-                      AppConstants().collectionPath),
+                      AppConstants.referencePath,
+                      AppConstants.collectionPath),
                   builder: (context,snapshot){
                     if(snapshot.hasData){
                      return ListView.builder(
