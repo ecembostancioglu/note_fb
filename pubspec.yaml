@@ -44,6 +44,7 @@ dependencies:
   google_sign_in: ^5.4.1
   email_validator: ^2.1.17
   motion_toast: ^2.3.2
+  flutter_slidable: ^2.0.0
 
 
 dev_dependencies:

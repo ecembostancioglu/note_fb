@@ -23,13 +23,18 @@ class NoteView extends StatelessWidget {
           gradient: LinearGradient(
               colors:[
                 Colors.blueGrey,
-                Colors.blueAccent] )
-
+                Colors.blueAccent]
+          )
         ),
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('${data['title']}'),
+            Text('${data['description']}'),
+          ],
+        ) ,
       ),
     );
   }
 }
-
-//Text('${data['title']}')
-//Text('${data['description']}')
