@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/authentication/widgets/login_widget.dart';
+import 'package:todo_fb/constants/app_constants.dart';
+import 'package:todo_fb/notes/data/repository/note_database.dart';
 import '../../widgets/add_note.dart';
 
 
@@ -17,10 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  CollectionReference ref=FirebaseFirestore.instance
-      .collection('Users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('Notes');
+  NoteDatabase noteDatabase=NoteDatabase();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +66,9 @@ class _HomePageState extends State<HomePage> {
               ),
             Flexible(
                 child: FutureBuilder<QuerySnapshot>(
-                  future: ref.get(),
+                  future: noteDatabase.getNoteList(
+                      AppConstants().referencePath,
+                      AppConstants().collectionPath),
                   builder: (context,snapshot){
                     if(snapshot.hasData){
                      return ListView.builder(

@@ -1,17 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:todo_fb/notes/data/repository/database.dart';
+import 'package:todo_fb/notes/data/repository/user_database.dart';
 
 class AuthService extends ChangeNotifier{
   final firebaseAuth=FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  UserDatabase userDatabase=UserDatabase();
 
   Future<User?> createUserWithEmailandPassword(String name,String email,String password)async{
     final userCredential=await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password);
-        addUsertoFirestore(userCredential.user!);
+        userDatabase.addUsertoFirestore(userCredential.user!);
       notifyListeners();
     return userCredential.user;
   }
@@ -34,7 +35,7 @@ class AuthService extends ChangeNotifier{
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
-        addGoogleUsertoFirestore(googleSignInAccount);
+        userDatabase.addGoogleUsertoFirestore(googleSignInAccount);
         await firebaseAuth.signInWithCredential(credential);
       }
     } on FirebaseAuthException catch (e) {

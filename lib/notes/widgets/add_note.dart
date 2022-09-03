@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:todo_fb/authentication/service/auth_service.dart';
+import 'package:todo_fb/constants/app_constants.dart';
+import 'package:todo_fb/notes/data/repository/note_database.dart';
+import '../domain/models/note.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({Key? key}) : super(key: key);
@@ -13,28 +12,24 @@ class AddNote extends StatefulWidget {
 
 class _AddNoteState extends State<AddNote> {
 
-  late String title;
-  late String desc;
+  TextEditingController titleCtr=TextEditingController();
+  TextEditingController descCtr=TextEditingController();
 
-  void add()async{
-      CollectionReference ref=FirebaseFirestore.instance
-          .collection('Users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('Notes');
-
-    var data={
-      'title':title,
-      'description':desc,
-      'created':DateTime.now(),
-    };
-
-    ref.add(data);
-    Navigator.pop(context);
-
-  }
+  NoteDatabase database=NoteDatabase();
 
 
+Future<void> add(String title,String description,DateTime created)async{
+   Note newNote=Note(
+       title: title,
+       description: description,
+       created: created);
+   await database.setNote(
+        referencePath:AppConstants().referencePath,
+       collectionPath:AppConstants().collectionPath,
+       noteAsMap:newNote.toMap());
 
+   Navigator.pop(context);
+}
 
 
   @override
@@ -50,7 +45,12 @@ class _AddNoteState extends State<AddNote> {
                     ElevatedButton(onPressed: (){
                       Navigator.of(context).pop();},
                         child: Icon(Icons.arrow_back_ios)),
-                    ElevatedButton(onPressed: add,
+                    ElevatedButton(
+                        onPressed:(){
+                          add(titleCtr.text,
+                              descCtr.text,
+                              DateTime.now());
+                        },
                          child: Text('Save'))
                   ],
                 ),
@@ -60,11 +60,12 @@ class _AddNoteState extends State<AddNote> {
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: TextFormField(
+                          controller: titleCtr,
                           decoration: InputDecoration(
                               hintText:'Title',
                               prefixIcon: Icon(Icons.note_add)),
                           onChanged: (val){
-                            title=val;
+                            titleCtr.text=val;
                           },
                         ),
                       ),
@@ -75,7 +76,7 @@ class _AddNoteState extends State<AddNote> {
                               hintText:'Note Description',
                               prefixIcon: Icon(Icons.description)),
                           onChanged: (val){
-                            desc=val;
+                            descCtr.text=val;
                           },
                         ),
                       )
