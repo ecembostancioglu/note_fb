@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -23,6 +25,15 @@ class NoteView extends StatefulWidget {
 class _NoteViewState extends State<NoteView> {
 
    NoteDatabase noteDatabase=NoteDatabase();
+   Random random=Random();
+   final colors=const[
+     Color(0xff645CAA),
+     Color(0xffA084CA),
+     Color(0xffBFACE0),
+     Color(0xffEBC7E8),
+     Color(0xffFFC4C4),
+     Color(0xffAC7088),
+   ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +43,7 @@ class _NoteViewState extends State<NoteView> {
         motion:const ScrollMotion(),
         children:[
         SlidableAction(
-          onPressed:((context){
-            deleteNote(Note note){
-              noteDatabase.deleteDocument(
-                  AppConstants.referencePath,AppConstants.collectionPath,widget.index.toString());
-            }
-          }),
+          onPressed:((context){}),
           backgroundColor:const Color(0xFFFE4A49),
           foregroundColor: Colors.white,
           icon: Icons.delete,
@@ -49,14 +55,10 @@ class _NoteViewState extends State<NoteView> {
         child: Container(
           height: 80.h,
           width: ScreenUtil().screenWidth,
-          decoration:const BoxDecoration(
+          decoration:BoxDecoration(
+            color:colors[random.nextInt(6)],
               borderRadius: BorderRadius.all(
                   Radius.circular(AppConstants.borderRadius)),
-              gradient: LinearGradient(
-                  colors:[
-                    Colors.blueGrey,
-                    Colors.blueAccent]
-              )
           ),
           child:Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Color(0xff645CAA),
         actions: [
           IconButton(
             icon:const Icon(Icons.logout),
@@ -61,7 +62,6 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.all(Radius.circular(20))
                     )
                   ),
-
                 ),
               ),
             Flexible(
