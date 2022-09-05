@@ -25,12 +25,12 @@ class NoteDatabase{
   }
 
   //DELETE NOTE
-  Future<void> deleteDocument({String? referencePath,String? collectionPath,int? index}) async{
+  Future<void> deleteDocument(String referencePath, String collectionPath, String id) async{
     await _firebaseFirestore
-        .collection(referencePath!)
+        .collection(referencePath)
         .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection(collectionPath!)
-        .doc(collectionPath[index!]).delete();
+        .collection(collectionPath)
+        .doc(id).delete();
   }
 
 }

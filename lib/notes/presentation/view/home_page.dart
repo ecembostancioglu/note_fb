@@ -11,7 +11,9 @@ import '../../widgets/note_view.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key,required this.name}) : super(key: key);
+
+  final String name;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -47,9 +49,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Padding(
-              padding:EdgeInsets.all(20),
-             child: Text('WELCOME'),),
+             Padding(
+              padding:const EdgeInsets.all(20),
+             child: Text('Welcome ${widget.name}'),),
              Padding(
                 padding: EdgeInsets.all(12.0),
                 child: TextField(
@@ -74,7 +76,9 @@ class _HomePageState extends State<HomePage> {
                        itemCount: snapshot.data!.docs.length,
                          itemBuilder:(context,index){
                          var data=snapshot.data!.docs[index];
-                           return NoteView(data:data);
+                           return NoteView(
+                               data:data,
+                               index:index);
                          });
                     }else{
                       return const Center(

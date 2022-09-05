@@ -6,7 +6,9 @@ import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/notes/presentation/view/home_page.dart';
 
 class VerifyEmailPage extends StatefulWidget {
-  const VerifyEmailPage({Key? key}) : super(key: key);
+  const VerifyEmailPage({Key? key,required this.name}) : super(key: key);
+
+  final String name;
 
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
@@ -62,7 +64,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context)
    => isEmailVerified
-        ? HomePage()
+        ? HomePage(name:widget.name)
         : Scaffold(
           body: Center(
            child: Column(
