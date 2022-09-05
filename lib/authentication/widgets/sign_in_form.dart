@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_fb/notes/presentation/view/home_page.dart';
+import 'package:todo_fb/notes/presentation/view/dashboard.dart';
 import '../../constants/app_constants.dart';
 import '../service/auth_service.dart';
 import 'error_widget.dart';
@@ -31,7 +31,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
             signInEmailController.text,
             signInPasswordController.text).then((_){
           Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context)=>HomePage(name:userNameController.text)));
+              builder: (context)=>Dashboard(name: userNameController.text)));
         });
 
       }
@@ -44,7 +44,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
     await Provider.of<AuthService>(context,listen: false).signInwithGoogle();
     if(user != null){
       Navigator.push(context, MaterialPageRoute(
-          builder: (context)=>HomePage(name:signInEmailController.text)));
+          builder: (context)=>Dashboard(name:userNameController.text)));
     }else{
       const Center(
         child: CircularProgressIndicator(),

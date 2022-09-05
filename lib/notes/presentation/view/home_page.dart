@@ -6,7 +6,6 @@ import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/authentication/widgets/login_widget.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/note_database.dart';
-import '../../widgets/add_note.dart';
 import '../../widgets/note_view.dart';
 
 
@@ -88,18 +87,6 @@ class _HomePageState extends State<HomePage> {
                 ))
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:(){
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context)=>AddNote(),)
-          ).then((value) {
-            setState(() {});
-          });
-        },
-        child: Icon(Icons.add),
-
-
       ),
     );
   }

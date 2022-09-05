@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_fb/notes/data/repository/user_database.dart';
+import 'package:todo_fb/notes/domain/models/auth_user.dart';
 
 class AuthService extends ChangeNotifier{
   final firebaseAuth=FirebaseAuth.instance;
@@ -13,7 +14,9 @@ class AuthService extends ChangeNotifier{
     final user=await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password);
-
+    AuthUser.email=user.user!.email;
+    AuthUser.userName=name;
+    AuthUser.authUserId=user.user!.uid;
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(user.user!.email)
