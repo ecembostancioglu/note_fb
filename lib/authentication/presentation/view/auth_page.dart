@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/presentation/view/dashboard.dart';
-import '../../../notes/presentation/view/home_page.dart';
 import '../../widgets/login_widget.dart';
 
 class AuthPage extends StatelessWidget {

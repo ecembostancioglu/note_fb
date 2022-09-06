@@ -13,14 +13,12 @@ class NoteDatabase{
         .collection(collectionPath).get();
   }
 
-  //ADD NEW NOTE AND UPDATE
-
-  Future<void> setNote({String? referencePath,String? collectionPath, Map<String, dynamic>? noteAsMap})async{
+  Future<void> setNote(String referencePath,String collectionPath, Map<String, dynamic> noteAsMap)async{
     await _firebaseFirestore
-        .collection(referencePath!)
+        .collection(referencePath)
         .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection(collectionPath!)
-        .doc(Note.fromMap(noteAsMap!).title)
+        .collection(collectionPath)
+        .doc(Note.fromMap(noteAsMap).title)
         .set(noteAsMap);
   }
 
@@ -29,8 +27,9 @@ class NoteDatabase{
     await _firebaseFirestore
         .collection(referencePath)
         .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection(collectionPath)
-        .doc(id).delete();
+        .collection(collectionPath);
   }
+
+
 
 }

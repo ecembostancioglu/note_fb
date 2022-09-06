@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_fb/authentication/presentation/view/auth_page.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/authentication/widgets/login_widget.dart';
 import 'package:todo_fb/constants/app_constants.dart';
@@ -33,11 +34,9 @@ class _HomePageState extends State<HomePage> {
             onPressed: ()async{
               await Provider.of<AuthService>(context,listen: false).signOut().then((_)
               {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => LoginWidget(),
-                    ),
-                        (Route route) => false);
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(
+                        builder: (context)=>AuthPage()));
               });
             },
           )
@@ -48,10 +47,12 @@ class _HomePageState extends State<HomePage> {
         width: ScreenUtil().screenWidth,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
              Padding(
               padding:const EdgeInsets.all(20),
-             child: Text('Welcome ${widget.name}'),),
+              child: Text('Welcome ${widget.name}',
+              style: TextStyle(fontSize: 21.sp)),),
              Padding(
                 padding: EdgeInsets.all(12.0),
                 child: TextField(
@@ -72,14 +73,15 @@ class _HomePageState extends State<HomePage> {
                   builder: (context,snapshot){
                     if(snapshot.hasData){
                      return ListView.builder(
-                       itemCount: snapshot.data!.docs.length,
+                       itemCount: snapshot.data?.docs.length,
                          itemBuilder:(context,index){
                          var data=snapshot.data!.docs[index];
                            return NoteView(
                                data:data,
                                index:index);
                          });
-                    }else{
+                    }
+                    else{
                       return const Center(
                           child: CircularProgressIndicator());
                     }

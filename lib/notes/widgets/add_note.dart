@@ -24,11 +24,12 @@ Future<void> add(String title,String description,DateTime created)async{
        description: description,
        created: created);
    await database.setNote(
-        referencePath:AppConstants.referencePath,
-       collectionPath:AppConstants.collectionPath,
-       noteAsMap:newNote.toMap());
+        AppConstants.referencePath,
+       AppConstants.collectionPath,
+       newNote.toMap());
 
-   Navigator.pop(context);
+     Navigator.pop(context);
+
 }
 
 
@@ -44,12 +45,14 @@ Future<void> add(String title,String description,DateTime created)async{
                   children: [
                     ElevatedButton(onPressed: (){
                       Navigator.of(context).pop();},
-                        child: Icon(Icons.arrow_back_ios)),
+                        child:const Icon(Icons.arrow_back_ios)),
                     ElevatedButton(
                         onPressed:(){
                           add(titleCtr.text,
                               descCtr.text,
-                              DateTime.now());
+                              DateTime.now()).then((value) {
+                            setState(() {});
+                          });
                           },
                          child: Text('Save'))
                   ],

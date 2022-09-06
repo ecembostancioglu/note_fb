@@ -16,7 +16,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int currentIndex=0;
   final screens=[
-    HomePage(name:AuthUser.userName),
+    HomePage(name:AuthUser.userName ?? ''),
     Settings()
   ];
 
@@ -30,10 +30,7 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: Color(0xff645CAA),
         onPressed:(){
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context)=>AddNote())
-          ).then((value) {
-            setState(() {});
-          });
+              MaterialPageRoute(builder: (context)=>AddNote()));
         },
         child:const Icon(Icons.add),
       ),
