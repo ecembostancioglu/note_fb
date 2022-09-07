@@ -5,16 +5,17 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/note_database.dart';
 
-
 class NoteView extends StatefulWidget {
     NoteView({
      required this.data,
      required this.index,
+      required this.id,
     Key? key,
   }) : super(key: key);
 
   final dynamic data;
   final int index;
+  final String id;
 
   @override
   State<NoteView> createState() => _NoteViewState();
@@ -24,6 +25,8 @@ class _NoteViewState extends State<NoteView> {
 
    NoteDatabase noteDatabase=NoteDatabase();
    Random random=Random();
+   bool _isDeleting=false;
+
    final colors=const[
      Color(0xff645CAA),
      Color(0xffA084CA),
@@ -41,7 +44,15 @@ class _NoteViewState extends State<NoteView> {
         motion:const ScrollMotion(),
         children:[
         SlidableAction(
-          onPressed:((context){}),
+          onPressed:((context)async{
+          setState(() {
+            _isDeleting=true;
+          });
+          await noteDatabase.deleteNote(id:widget.id);
+          setState(() {
+            _isDeleting=false;
+          });
+          }),
           backgroundColor:const Color(0xFFFE4A49),
           foregroundColor: Colors.white,
           icon: Icons.delete,

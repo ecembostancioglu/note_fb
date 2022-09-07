@@ -7,13 +7,12 @@ import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/authentication/widgets/login_widget.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/note_database.dart';
+import '../../domain/models/note.dart';
 import '../../widgets/note_view.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key,required this.name}) : super(key: key);
-
-  final String name;
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -51,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           children: [
              Padding(
               padding:const EdgeInsets.all(20),
-              child: Text('Welcome ${widget.name}',
+              child: Text('Welcome',
               style: TextStyle(fontSize: 21.sp)),),
              Padding(
                 padding: EdgeInsets.all(12.0),
@@ -66,17 +65,17 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             Flexible(
-                child: FutureBuilder<QuerySnapshot>(
-                  future: noteDatabase.getNoteList(
-                      AppConstants.referencePath,
-                      AppConstants.collectionPath),
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: noteDatabase.readNotes(),
                   builder: (context,snapshot){
                     if(snapshot.hasData){
                      return ListView.builder(
                        itemCount: snapshot.data?.docs.length,
                          itemBuilder:(context,index){
                          var data=snapshot.data!.docs[index];
+                         String id=snapshot.data!.docs[index].id;
                            return NoteView(
+                               id:id,
                                data:data,
                                index:index);
                          });

@@ -17,9 +17,9 @@ class _AddNoteState extends State<AddNote> {
 
   NoteDatabase database=NoteDatabase();
 
-
-Future<void> add(String title,String description,DateTime created)async{
+Future<void> add(String id,String title,String description,DateTime created)async{
    Note newNote=Note(
+       id:id,
        title: title,
        description: description,
        created: created);
@@ -31,7 +31,6 @@ Future<void> add(String title,String description,DateTime created)async{
      Navigator.pop(context);
 
 }
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +47,12 @@ Future<void> add(String title,String description,DateTime created)async{
                         child:const Icon(Icons.arrow_back_ios)),
                     ElevatedButton(
                         onPressed:(){
-                          add(titleCtr.text,
-                              descCtr.text,
-                              DateTime.now()).then((value) {
-                            setState(() {});
-                          });
+                        //  add(
+                          //                               titleCtr.text,
+                          //                               descCtr.text,
+                          //                               DateTime.now()).then((value) {
+                          //                                 setState(() {});
+                          //                               });
                           },
                          child: Text('Save'))
                   ],
