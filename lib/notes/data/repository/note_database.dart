@@ -1,18 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_fb/constants/app_constants.dart';
-import '../../domain/models/note.dart';
+
+final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
+final CollectionReference _mainCollection=_firebaseFirestore.collection(AppConstants.collectionPath);
 
 class NoteDatabase{
-  final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
 
-  //GET NOTE LIST FROM FB
- // Future<QuerySnapshot> getNoteList(String referencePath,String collectionPath){
-  //     return _firebaseFirestore
-  //         .collection(referencePath)
-  //         .doc(FirebaseAuth.instance.currentUser!.email)
-  //         .collection(collectionPath).get();
-  //   }
+  static String? id;
 
   Stream<QuerySnapshot> readNotes(){
     CollectionReference notesCollection =_firebaseFirestore
@@ -23,13 +18,13 @@ class NoteDatabase{
     return notesCollection.snapshots();
   }
 
-  Future<void> setNote(String referencePath,String collectionPath, Map<String, dynamic> noteAsMap)async{
-    await _firebaseFirestore
-        .collection(referencePath)
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection(collectionPath)
-        .doc(Note.fromMap(noteAsMap).title)
-        .set(noteAsMap);
+
+  Future<void> addNote(String title, String description,Map<String, dynamic> noteAsMap)async{
+    DocumentReference documentReference=_mainCollection.doc(id).collection(AppConstants.collectionPath).doc();
+
+   // await documentReference.set(Note.fromMap(noteAsMap)).whenComplete(() =>
+    //    print('Note inserted to the database')).catchError((e)=>print(e));
+
   }
   
    Future<void> deleteNote({required String id})async{

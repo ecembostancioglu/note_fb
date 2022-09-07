@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/note_database.dart';
-import '../domain/models/note.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({Key? key}) : super(key: key);
@@ -16,21 +14,6 @@ class _AddNoteState extends State<AddNote> {
   TextEditingController descCtr=TextEditingController();
 
   NoteDatabase database=NoteDatabase();
-
-Future<void> add(String id,String title,String description,DateTime created)async{
-   Note newNote=Note(
-       id:id,
-       title: title,
-       description: description,
-       created: created);
-   await database.setNote(
-        AppConstants.referencePath,
-       AppConstants.collectionPath,
-       newNote.toMap());
-
-     Navigator.pop(context);
-
-}
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +30,6 @@ Future<void> add(String id,String title,String description,DateTime created)asyn
                         child:const Icon(Icons.arrow_back_ios)),
                     ElevatedButton(
                         onPressed:(){
-                        //  add(
-                          //                               titleCtr.text,
-                          //                               descCtr.text,
-                          //                               DateTime.now()).then((value) {
-                          //                                 setState(() {});
-                          //                               });
                           },
                          child: Text('Save'))
                   ],

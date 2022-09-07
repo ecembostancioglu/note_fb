@@ -4,10 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/presentation/view/auth_page.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
-import 'package:todo_fb/authentication/widgets/login_widget.dart';
-import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/note_database.dart';
-import '../../domain/models/note.dart';
 import '../../widgets/note_view.dart';
 
 
