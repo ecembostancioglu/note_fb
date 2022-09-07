@@ -17,9 +17,6 @@ class _AddNoteState extends State<AddNote> {
   NoteDatabase database=NoteDatabase();
   bool _isProcessing=false;
 
-  String getTitle='';
-  String getDesc='';
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +39,9 @@ class _AddNoteState extends State<AddNote> {
                             });
                           }
                         await database.addNote(
-                              getTitle,
-                              getDesc);
+                              titleCtr.text,
+                              descCtr.text,
+                              DateTime.now());
                           
                           setState(() {
                             _isProcessing=false;
@@ -68,7 +66,6 @@ class _AddNoteState extends State<AddNote> {
                               prefixIcon: Icon(Icons.note_add)),
                           onChanged: (val){
                             titleCtr.text=val;
-                            getTitle=val;
                           },
                         ),
                       ),
@@ -80,7 +77,6 @@ class _AddNoteState extends State<AddNote> {
                               prefixIcon: Icon(Icons.description)),
                           onChanged: (val){
                             descCtr.text=val;
-                            getDesc=val;
                           },
                         ),
                       )

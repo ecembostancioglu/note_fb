@@ -49,9 +49,12 @@ class _NoteViewState extends State<NoteView> {
             _isDeleting=true;
           });
           await noteDatabase.deleteNote(id:widget.id);
-          setState(() {
-            _isDeleting=false;
-          });
+
+          if(mounted){
+            setState(() {
+              _isDeleting=false;
+            });
+          }
           }),
           backgroundColor:const Color(0xFFFE4A49),
           foregroundColor: Colors.white,
