@@ -47,5 +47,17 @@ class NoteDatabase{
   }
 
 
+  Future<void> deleteNotes()async{
+    CollectionReference coll=_firebaseFirestore
+        .collection(AppConstants.referencePath)
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection(AppConstants.collectionPath);
+
+    final futureQuery= coll.get();
+    await futureQuery.then((value) => value.docs.forEach((element) {
+      element.reference.delete();
+    }));
+  }
+
 
 }

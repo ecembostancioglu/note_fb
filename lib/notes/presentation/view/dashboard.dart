@@ -16,7 +16,6 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int currentIndex=0;
   final screens=[
-   // HomePage(name:AuthUser.userName ?? ''),
     HomePage(),
     Settings()
   ];
