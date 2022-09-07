@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: noteDatabase.readNotes(),
                   builder: (context,snapshot){
-                    if(snapshot.hasData){
+                    if(snapshot.hasData || snapshot.data !=null){
                      return ListView.builder(
                        itemCount: snapshot.data?.docs.length,
                          itemBuilder:(context,index){

@@ -24,16 +24,17 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: screens[currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        elevation: 10,
-        backgroundColor: Color(0xff645CAA),
-        onPressed:(){
-          Navigator.of(context).push(
+      floatingActionButton:FloatingActionButton(
+            elevation: 10,
+            backgroundColor: Color(0xff645CAA),
+            onPressed:(){
+             Navigator.of(context).push(
               MaterialPageRoute(builder: (context)=>AddNote()));
-        },
-        child:const Icon(Icons.add),
+            },
+              child:const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.grey.shade600,

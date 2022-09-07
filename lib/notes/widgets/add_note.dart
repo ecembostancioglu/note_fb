@@ -10,10 +10,16 @@ class AddNote extends StatefulWidget {
 
 class _AddNoteState extends State<AddNote> {
 
+  final _addNoteFromKey=GlobalKey<FormState>();
   TextEditingController titleCtr=TextEditingController();
   TextEditingController descCtr=TextEditingController();
 
   NoteDatabase database=NoteDatabase();
+  bool _isProcessing=false;
+
+  String getTitle='';
+  String getDesc='';
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +35,28 @@ class _AddNoteState extends State<AddNote> {
                       Navigator.of(context).pop();},
                         child:const Icon(Icons.arrow_back_ios)),
                     ElevatedButton(
-                        onPressed:(){
+                        onPressed:()async{
+                          if(_addNoteFromKey.currentState!.validate()){
+                            setState(() {
+                              _isProcessing=true;
+                            });
+                          }
+                        await database.addNote(
+                              getTitle,
+                              getDesc);
+                          
+                          setState(() {
+                            _isProcessing=false;
+                          });
+                          Navigator.pop(context);
                           },
+                       
+
                          child: Text('Save'))
                   ],
                 ),
                 Form(
+                  key: _addNoteFromKey,
                   child:Column(
                     children: [
                       Padding(
@@ -42,9 +64,11 @@ class _AddNoteState extends State<AddNote> {
                         child: TextFormField(
                           decoration:const InputDecoration(
                               hintText:'Title',
+
                               prefixIcon: Icon(Icons.note_add)),
                           onChanged: (val){
                             titleCtr.text=val;
+                            getTitle=val;
                           },
                         ),
                       ),
@@ -56,6 +80,7 @@ class _AddNoteState extends State<AddNote> {
                               prefixIcon: Icon(Icons.description)),
                           onChanged: (val){
                             descCtr.text=val;
+                            getDesc=val;
                           },
                         ),
                       )
