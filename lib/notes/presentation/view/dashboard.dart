@@ -24,6 +24,10 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar:  AppBar(
+        title: Text('e-Daily'),
+        backgroundColor:Color(0xff645CAA),
+      ),
       body: screens[currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton:FloatingActionButton(

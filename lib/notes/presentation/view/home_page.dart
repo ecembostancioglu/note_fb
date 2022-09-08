@@ -22,68 +22,54 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor:Color(0xff645CAA),
-        actions: [
-          IconButton(
-            icon:const Icon(Icons.logout),
-            onPressed: ()async{
-              await Provider.of<AuthService>(context,listen: false).signOut().then((_)
-              {
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(
-                        builder: (context)=>AuthPage()));
-              });
-            },
-          )
-        ],
-      ),
-      body: SizedBox(
-        height: ScreenUtil().screenHeight,
-        width: ScreenUtil().screenWidth,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-             Padding(
-              padding:const EdgeInsets.all(20),
-              child: Text('Welcome',
-              style: TextStyle(fontSize: 21.sp)),),
-             Padding(
-                padding: EdgeInsets.all(12.0),
-                child: TextField(
-                  onChanged:(val){},
-                  decoration:const InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))
-                    )
+      body: SafeArea(
+        child: SizedBox(
+          height: ScreenUtil().screenHeight,
+          width: ScreenUtil().screenWidth,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+               Padding(
+                padding:const EdgeInsets.all(20),
+                child: Text('Welcome',
+                style: TextStyle(fontSize: 21.sp)),),
+               Padding(
+                  padding:const EdgeInsets.all(12.0),
+                  child: TextField(
+                    onChanged:(val){},
+                    decoration:const InputDecoration(
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20))
+                      )
+                    ),
                   ),
                 ),
-              ),
-            Flexible(
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: noteDatabase.readNotes(),
-                  builder: (context,snapshot){
-                    if(snapshot.hasData || snapshot.data !=null){
-                     return ListView.builder(
-                       itemCount: snapshot.data?.docs.length,
-                         itemBuilder:(context,index){
-                         var data=snapshot.data!.docs[index];
-                         String id=snapshot.data!.docs[index].id;
-                           return NoteView(
-                               id:id,
-                               data:data,
-                               index:index);
-                         });
-                    }
-                    else{
-                      return const Center(
-                          child: CircularProgressIndicator());
-                    }
-                  },
-                ))
-          ],
+              Flexible(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: noteDatabase.readNotes(),
+                    builder: (context,snapshot){
+                      if(snapshot.hasData || snapshot.data !=null){
+                       return ListView.builder(
+                         itemCount: snapshot.data?.docs.length,
+                           itemBuilder:(context,index){
+                           var data=snapshot.data!.docs[index];
+                           String id=snapshot.data!.docs[index].id;
+                             return NoteView(
+                                 id:id,
+                                 data:data,
+                                 index:index);
+                           });
+                      }
+                      else{
+                        return const Center(
+                            child: CircularProgressIndicator());
+                      }
+                    },
+                  ))
+            ],
+          ),
         ),
       ),
     );

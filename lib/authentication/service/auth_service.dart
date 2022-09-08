@@ -35,6 +35,10 @@ class AuthService extends ChangeNotifier{
     return userCredential.user;
   }
 
+  Future updateUserName(String name)async{
+
+  }
+
   Future<void> signInwithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
