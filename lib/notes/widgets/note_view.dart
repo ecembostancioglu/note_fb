@@ -79,6 +79,9 @@ class _NoteViewState extends State<NoteView> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text('${widget.data['title']}',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap:false,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize:18.sp),),
@@ -86,7 +89,11 @@ class _NoteViewState extends State<NoteView> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text('${widget.data['description']}',
-                    style: TextStyle(fontSize:16.sp)),
+                    style: TextStyle(fontSize:16.sp),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap:false,
+                ),
               ),
             ],
           ) ,

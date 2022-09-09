@@ -21,38 +21,39 @@ class _AddNoteState extends State<AddNote> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:AppBar(
+        backgroundColor:Color(0xff645CAA),
+        leading:IconButton(
+            onPressed: (){
+              Navigator.of(context).pop();},
+            icon:const Icon(Icons.arrow_back_ios)),
+        actions: [
+          IconButton(
+              onPressed:()async{
+                if(_addNoteFromKey.currentState!.validate()){
+                  setState(() {
+                    _isProcessing=true;
+                  });
+                }
+                await database.addNote(
+                    titleCtr.text,
+                    descCtr.text,
+                    DateTime.now());
+
+                setState(() {
+                  _isProcessing=false;
+                });
+                Navigator.pop(context);
+              },
+
+
+              icon: Text('Save'))
+        ],
+      ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(onPressed: (){
-                      Navigator.of(context).pop();},
-                        child:const Icon(Icons.arrow_back_ios)),
-                    ElevatedButton(
-                        onPressed:()async{
-                          if(_addNoteFromKey.currentState!.validate()){
-                            setState(() {
-                              _isProcessing=true;
-                            });
-                          }
-                        await database.addNote(
-                              titleCtr.text,
-                              descCtr.text,
-                              DateTime.now());
-                          
-                          setState(() {
-                            _isProcessing=false;
-                          });
-                          Navigator.pop(context);
-                          },
-                       
-
-                         child: Text('Save'))
-                  ],
-                ),
                 Form(
                   key: _addNoteFromKey,
                   child:Column(
@@ -60,9 +61,11 @@ class _AddNoteState extends State<AddNote> {
                       Padding(
                         padding:const EdgeInsets.all(20.0),
                         child: TextFormField(
-                          decoration:InputDecoration(
-                              hintText:'Title',
-                              prefixIcon: Icon(Icons.note_add)),
+                          decoration:const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20))
+                            ),
+                              hintText:'Title'),
                           onChanged: (val){
                             titleCtr.text=val;
                           },
@@ -71,9 +74,13 @@ class _AddNoteState extends State<AddNote> {
                       Padding(
                         padding:const EdgeInsets.all(20.0),
                         child: TextFormField(
+                          maxLines:22,
                           decoration:const InputDecoration(
-                              hintText:'Note Description',
-                              prefixIcon: Icon(Icons.description)),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20))
+                              ),
+                              hintText:'Note Description'),
                           onChanged: (val){
                             descCtr.text=val;
                           },
