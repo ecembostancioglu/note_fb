@@ -5,9 +5,8 @@ import 'package:todo_fb/notes/presentation/view/settings.dart';
 import '../../widgets/add_note.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({required this.name,Key? key}) : super(key: key);
+  const Dashboard({Key? key}) : super(key: key);
 
-  final String name;
 
   @override
   State<Dashboard> createState() => _DashboardState();

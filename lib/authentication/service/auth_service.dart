@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/user_database.dart';
 import 'package:todo_fb/notes/domain/models/auth_user.dart';
 
@@ -9,21 +10,22 @@ class AuthService extends ChangeNotifier{
   final firebaseAuth=FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   UserDatabase userDatabase=UserDatabase();
+  late AuthUser authUser;
 
   Future<User?> createUserWithEmailandPassword(String name,String email,String password)async{
     final user=await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password);
     await FirebaseFirestore.instance
-        .collection('Users')
+        .collection(AppConstants.referencePath)
         .doc(user.user!.email)
         .set({
       'email':user.user!.email,
     'userUid':user.user!.uid,
-    'userName':name});
-    AuthUser.email=user.user!.email;
-    AuthUser.userName=name;
-    AuthUser.authUserId=user.user!.uid;
+    'userName':user.user!.displayName});
+    authUser.email=user.user!.email!;
+    authUser.userName=user.user!.displayName!;
+    authUser.authUserId=user.user!.uid;
       notifyListeners();
     return user.user;
   }
@@ -35,9 +37,6 @@ class AuthService extends ChangeNotifier{
     return userCredential.user;
   }
 
-  Future updateUserName(String name)async{
-
-  }
 
   Future<void> signInwithGoogle() async {
     try {

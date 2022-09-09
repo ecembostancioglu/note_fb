@@ -59,5 +59,12 @@ class NoteDatabase{
     }));
   }
 
+  Future<void> update(Map<String,Object?>data)async{
+    return await FirebaseFirestore.instance
+        .collection(AppConstants.referencePath)
+        .doc(FirebaseAuth.instance.currentUser!.email).update(data);
+
+  }
+
 
 }

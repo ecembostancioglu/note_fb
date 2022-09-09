@@ -60,9 +60,8 @@ class _AddNoteState extends State<AddNote> {
                       Padding(
                         padding:const EdgeInsets.all(20.0),
                         child: TextFormField(
-                          decoration:const InputDecoration(
+                          decoration:InputDecoration(
                               hintText:'Title',
-
                               prefixIcon: Icon(Icons.note_add)),
                           onChanged: (val){
                             titleCtr.text=val;
@@ -72,7 +71,7 @@ class _AddNoteState extends State<AddNote> {
                       Padding(
                         padding:const EdgeInsets.all(20.0),
                         child: TextFormField(
-                          decoration:const  InputDecoration(
+                          decoration:const InputDecoration(
                               hintText:'Note Description',
                               prefixIcon: Icon(Icons.description)),
                           onChanged: (val){

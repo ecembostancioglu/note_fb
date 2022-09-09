@@ -135,7 +135,7 @@ class _BuildRegisterFormState extends State<BuildRegisterForm> {
               SizedBox(height: 20.h),
               GestureDetector(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>BuildSignInForm()));
+                  Navigator.push(context, MaterialPageRoute(builder:(context)=>BuildSignInForm()));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

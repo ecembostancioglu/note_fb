@@ -32,7 +32,7 @@ class _SignUpButtonState extends State<SignUpButton> {
             registerPasswordController.text).then((_){
           Navigator.pushReplacement(context,
               MaterialPageRoute(
-                  builder: (context)=>VerifyEmailPage(name:userNameController.text)));
+                  builder: (context)=>VerifyEmailPage()));
         });
       }
     }on FirebaseAuthException catch (error){

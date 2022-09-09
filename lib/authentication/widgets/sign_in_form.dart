@@ -31,7 +31,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
             signInEmailController.text,
             signInPasswordController.text).then((_){
           Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context)=>Dashboard(name: userNameController.text)));
+              builder: (context)=>Dashboard()));
         });
 
       }
@@ -43,8 +43,8 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
   Future signInwithGoogle() async{
     await Provider.of<AuthService>(context,listen: false).signInwithGoogle();
     if(user != null){
-      Navigator.push(context, MaterialPageRoute(
-          builder: (context)=>Dashboard(name:userNameController.text)));
+      Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context)=>Dashboard()));
     }else{
       const Center(
         child: CircularProgressIndicator(),
