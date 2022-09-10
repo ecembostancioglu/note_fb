@@ -27,37 +27,33 @@ class _NoteViewState extends State<NoteView> {
    Random random=Random();
    bool _isDeleting=false;
 
-   final colors=const[
-     Color(0xff645CAA),
-     Color(0xffA084CA),
-     Color(0xffBFACE0),
-     Color(0xffEBC7E8),
-     Color(0xffFFC4C4),
-     Color(0xffAC7088),
-   ];
+   Future<void> deleteNote()async{
+     setState(() {
+       _isDeleting=true;
+     });
+     await noteDatabase.deleteNote(id:widget.id);
+
+     if(mounted){
+       setState(() {
+         _isDeleting=false;
+       });
+     }
+   }
+
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
       startActionPane:ActionPane(
-          key:const ValueKey(0),
         motion:const ScrollMotion(),
-        children:[
+          children:[
         SlidableAction(
-          onPressed:((context)async{
-          setState(() {
-            _isDeleting=true;
-          });
-          await noteDatabase.deleteNote(id:widget.id);
-
-          if(mounted){
-            setState(() {
-              _isDeleting=false;
-            });
-          }
-          }),
-          backgroundColor:const Color(0xFFFE4A49),
-          foregroundColor: Colors.white,
+          onPressed:(context){
+            deleteNote();
+            },
+          borderRadius:const BorderRadius.all(Radius.circular(20)),
+          backgroundColor:errorBackground,
+          foregroundColor:iconForeground,
           icon: Icons.delete,
           label: 'Delete',
         ),]
@@ -68,8 +64,8 @@ class _NoteViewState extends State<NoteView> {
           height: 80.h,
           width: ScreenUtil().screenWidth,
           decoration:BoxDecoration(
-            color:colors[random.nextInt(6)],
-              borderRadius: BorderRadius.all(
+            color:colors[random.nextInt(8)],
+              borderRadius:const BorderRadius.all(
                   Radius.circular(AppConstants.borderRadius)),
           ),
           child:Column(

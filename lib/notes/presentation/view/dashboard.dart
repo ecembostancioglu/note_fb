@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_fb/notes/domain/models/auth_user.dart';
 import 'package:todo_fb/notes/presentation/view/home_page.dart';
 import 'package:todo_fb/notes/presentation/view/settings.dart';
+import '../../../constants/app_constants.dart';
 import '../../widgets/add_note.dart';
 
 class Dashboard extends StatefulWidget {
@@ -25,13 +25,13 @@ class _DashboardState extends State<Dashboard> {
       resizeToAvoidBottomInset: false,
       appBar:  AppBar(
         title: Text('e-Daily'),
-        backgroundColor:Color(0xff645CAA),
+        backgroundColor:buttonColor,
       ),
       body: screens[currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton:FloatingActionButton(
             elevation: 10,
-            backgroundColor: Color(0xff645CAA),
+            backgroundColor:buttonColor,
             onPressed:(){
              Navigator.of(context).push(
               MaterialPageRoute(builder: (context)=>AddNote()));
@@ -48,8 +48,8 @@ class _DashboardState extends State<Dashboard> {
           currentIndex=index;
         }),
         elevation:10,
-       backgroundColor:const Color(0xffEBC7E8),
-       selectedItemColor:const Color(0xff645CAA),
+       backgroundColor:navBarColor,
+       selectedItemColor:buttonColor,
        items:const [
          BottomNavigationBarItem(
              icon: Icon(Icons.home),

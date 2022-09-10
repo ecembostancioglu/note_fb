@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
+import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/note_database.dart';
 import '../../widgets/note_view.dart';
 
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                     decoration:const InputDecoration(
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))
+                        borderRadius:borderRad
                       )
                     ),
                   ),

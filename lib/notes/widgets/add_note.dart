@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/data/repository/note_database.dart';
 
 class AddNote extends StatefulWidget {
@@ -22,74 +24,72 @@ class _AddNoteState extends State<AddNote> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
-        backgroundColor:Color(0xff645CAA),
+        backgroundColor:buttonColor,
         leading:IconButton(
             onPressed: (){
               Navigator.of(context).pop();},
             icon:const Icon(Icons.arrow_back_ios)),
-        actions: [
-          IconButton(
-              onPressed:()async{
-                if(_addNoteFromKey.currentState!.validate()){
-                  setState(() {
-                    _isProcessing=true;
-                  });
-                }
-                await database.addNote(
-                    titleCtr.text,
-                    descCtr.text,
-                    DateTime.now());
-
-                setState(() {
-                  _isProcessing=false;
-                });
-                Navigator.pop(context);
-              },
-
-
-              icon: Text('Save'))
-        ],
       ),
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Form(
-                  key: _addNoteFromKey,
-                  child:Column(
-                    children: [
-                      Padding(
-                        padding:const EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          decoration:const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(20))
-                            ),
-                              hintText:'Title'),
-                          onChanged: (val){
-                            titleCtr.text=val;
-                          },
+            child: Form(
+              key: _addNoteFromKey,
+              child:Column(
+                children: [
+                  Padding(
+                    padding:const EdgeInsets.all(20.0),
+                    child: TextFormField(
+                      decoration:const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: borderRad
                         ),
-                      ),
-                      Padding(
-                        padding:const EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          maxLines:22,
-                          decoration:const InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20))
-                              ),
-                              hintText:'Note Description'),
-                          onChanged: (val){
-                            descCtr.text=val;
-                          },
-                        ),
-                      )
-                    ],
+                          hintText:'Title'),
+                      onChanged: (val){
+                        titleCtr.text=val;
+                      },
+                    ),
                   ),
-                )
-              ],
+                  Padding(
+                    padding:const EdgeInsets.all(20.0),
+                    child: TextFormField(
+                      maxLines:22,
+                      decoration:const InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:borderRad
+                          ),
+                          hintText:'Note Description'),
+                      onChanged: (val){
+                        descCtr.text=val;
+                      },
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                          borderRadius:borderRad)),
+                      minimumSize: MaterialStateProperty.all(Size(160.w,50.h)),
+                      elevation: MaterialStateProperty.all(8),
+                    backgroundColor:MaterialStateProperty.all(buttonColor)),
+                      onPressed: ()async{
+                        if(_addNoteFromKey.currentState!.validate()){
+                          setState(() {
+                            _isProcessing=true;
+                          });
+                        }
+                        await database.addNote(
+                            titleCtr.text,
+                            descCtr.text,
+                            DateTime.now());
+
+                        setState(() {
+                          _isProcessing=false;
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Text('Save'))
+                ],
+              ),
             ),
           ),
         ),

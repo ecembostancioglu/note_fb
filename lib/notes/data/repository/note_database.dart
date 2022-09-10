@@ -46,7 +46,6 @@ class NoteDatabase{
         print('Note deleted from the database')).catchError((e)=>print(e));
   }
 
-
   Future<void> deleteNotes()async{
     CollectionReference coll=_firebaseFirestore
         .collection(AppConstants.referencePath)

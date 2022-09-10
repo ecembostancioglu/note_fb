@@ -63,11 +63,11 @@ class _SettingsState extends State<Settings> {
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
                             onPressed:update,
-                            icon:const Icon(Icons.change_circle_outlined),
+                            icon:const Icon(Icons.change_circle_outlined,
+                                color: buttonColor),
                           ),
                           border:const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)))
+                              borderRadius:borderRad)
                         ),
                       ),
                     ),
@@ -83,7 +83,7 @@ class _SettingsState extends State<Settings> {
                     ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:MaterialStateProperty
-                              .all(const Color(0xff645CAA))),
+                              .all(buttonColor)),
                         onPressed:(){
                           noteDatabase.deleteNotes();
                         setState(() {
@@ -104,7 +104,7 @@ class _SettingsState extends State<Settings> {
                     Text('Change Language'),
                     DropdownButton<String>(
                       value: dropdownvalue,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderRadius: borderRad,
                         elevation:10,
                         items: langs.map((langs)
                         =>DropdownMenuItem<String>(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../authentication/presentation/view/auth_page.dart';
 import '../../authentication/service/auth_service.dart';
+import '../../constants/app_constants.dart';
 
 class SignOutWidget extends StatelessWidget {
   const SignOutWidget({
@@ -17,13 +18,13 @@ class SignOutWidget extends StatelessWidget {
           children: [
             Text('Sign Out'),
             IconButton(
-              icon:const Icon(Icons.logout),
+              icon:const Icon(Icons.logout,color: buttonColor),
               onPressed: ()async{
                 await Provider.of<AuthService>(context,listen: false).signOut().then((_)
                 {
                   Navigator.pushReplacement(
                       context, MaterialPageRoute(
-                      builder: (context)=>AuthPage()));
+                      builder: (context)=> AuthPage()));
                 });
               },
             ),
