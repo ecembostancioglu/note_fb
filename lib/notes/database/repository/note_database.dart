@@ -46,7 +46,7 @@ class NoteDatabase{
         print('Note deleted from the database')).catchError((e)=>print(e));
   }
 
-  Future<void> deleteNotes()async{
+  Future<void> deleteAllNotes()async{
     CollectionReference coll=_firebaseFirestore
         .collection(AppConstants.referencePath)
         .doc(FirebaseAuth.instance.currentUser!.email)
@@ -64,6 +64,5 @@ class NoteDatabase{
         .doc(FirebaseAuth.instance.currentUser!.email).update(data);
 
   }
-
 
 }

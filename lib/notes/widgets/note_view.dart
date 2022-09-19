@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_fb/constants/app_constants.dart';
-import 'package:todo_fb/notes/data/repository/note_database.dart';
+import 'package:todo_fb/notes/database/repository/note_database.dart';
+
 
 class NoteView extends StatefulWidget {
     NoteView({

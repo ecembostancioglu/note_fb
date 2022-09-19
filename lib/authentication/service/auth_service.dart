@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_fb/constants/app_constants.dart';
-import 'package:todo_fb/notes/data/repository/user_database.dart';
 import 'package:todo_fb/notes/domain/models/auth_user.dart';
+import '../../notes/database/repository/user_database.dart';
+
 
 class AuthService extends ChangeNotifier{
   final firebaseAuth=FirebaseAuth.instance;

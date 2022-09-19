@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_fb/constants/app_constants.dart';
-import 'package:todo_fb/notes/data/repository/note_database.dart';
+import 'package:todo_fb/notes/database/repository/note_database.dart';
+
 
 class AddNote extends StatefulWidget {
   const AddNote({Key? key}) : super(key: key);
@@ -81,7 +82,6 @@ class _AddNoteState extends State<AddNote> {
                             titleCtr.text,
                             descCtr.text,
                             DateTime.now());
-
                         setState(() {
                           _isProcessing=false;
                         });
