@@ -19,21 +19,8 @@ class _HomePageState extends State<HomePage> {
   NoteDatabase noteDatabase=NoteDatabase();
   AuthService authService=AuthService();
   final TextEditingController _searchController=TextEditingController();
-  String noteText='';
-  Future<QuerySnapshot>? noteDocList;
+  String query='';
 
-
-  initSearchingNote(String textEntered){
-    noteDocList= FirebaseFirestore.instance
-        .collection(AppConstants.collectionPath)
-        .where('title',isLessThanOrEqualTo:textEntered)
-        .get();
-
-    setState(() {
-      noteDocList;
-    });
-    
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +42,9 @@ class _HomePageState extends State<HomePage> {
                 child: TextField(
                   controller: _searchController,
                   onChanged:(textEntered){
-                   setState(() {
-                     noteText=textEntered;
-                   });
-                   initSearchingNote(textEntered);
-                   initSearchingNote(noteText);
+                    setState(() {
+                     query=textEntered;
+                    });
                   },
                   decoration:const InputDecoration(
                       prefixIcon: Icon(Icons.search),
@@ -74,22 +59,31 @@ class _HomePageState extends State<HomePage> {
                   StreamBuilder<QuerySnapshot>(
                     stream:noteDatabase.readNotes(),
                     builder: (context,snapshot){
-                      if(snapshot.hasData || snapshot.data !=null){
-                        return ListView.builder(
-                            itemCount: snapshot.data?.docs.length,
-                            itemBuilder:(context,index){
-                              var data=snapshot.data!.docs[index];
-                              String id=snapshot.data!.docs[index].id;
-                              return NoteView(
-                                  id:id,
-                                  data:data,
-                                  index:index);
-                            });
-                      }
-                      else{
-                        return const Center(
-                            child: CircularProgressIndicator());
-                      }
+                     if(!snapshot.hasData){
+                       return Center(child: CircularProgressIndicator(),);
+                     }
+                     else{
+
+                       if(snapshot.data!.docs.where((QueryDocumentSnapshot<Object?> element)
+                       => element['title'].toString().toLowerCase().contains(query.toLowerCase())).isEmpty){
+                         return Center(child: Text(AppConstants.noData),);
+                       }
+
+                      return ListView(
+                        children: [
+                          ...snapshot.data!.docs
+                          .where((QueryDocumentSnapshot<Object?> element)
+                           => element['title'].toString().toLowerCase()
+                          .contains(query.toLowerCase()))
+                              .map((QueryDocumentSnapshot<Object?> data){
+                                      return NoteView(
+                                      //    id:id,
+                                      //   index:index,
+                                         data:data);
+                          })
+                        ],
+                      );
+                     }
                     },
                   )
               )
@@ -100,4 +94,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

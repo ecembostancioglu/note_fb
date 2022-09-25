@@ -10,7 +10,7 @@ class NoteDatabase{
   static String? id;
 
   Stream<QuerySnapshot> readNotes(){
-    Query notesCollection =_firebaseFirestore
+      Query notesCollection =_firebaseFirestore
         .collection(AppConstants.referencePath)
         .doc(FirebaseAuthDoc)
         .collection(AppConstants.collectionPath).orderBy('created');

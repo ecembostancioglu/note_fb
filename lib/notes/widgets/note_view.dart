@@ -9,14 +9,14 @@ import 'package:todo_fb/notes/database/repository/note_database.dart';
 class NoteView extends StatefulWidget {
     NoteView({
      required this.data,
-     required this.index,
-      required this.id,
+   //  required this.index,
+   //   required this.id,
     Key? key,
   }) : super(key: key);
 
   final dynamic data;
-  final int index;
-  final String id;
+ // final int index;
+//  final String id;
 
   @override
   State<NoteView> createState() => _NoteViewState();
@@ -32,7 +32,7 @@ class _NoteViewState extends State<NoteView> {
      setState(() {
        _isDeleting=true;
      });
-     await noteDatabase.deleteNote(id:widget.id);
+  //   await noteDatabase.deleteNote(id:widget.id);
 
      if(mounted){
        setState(() {
