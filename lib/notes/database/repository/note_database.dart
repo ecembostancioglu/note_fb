@@ -3,20 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 
 final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
+final String? FirebaseAuthDoc=FirebaseAuth.instance.currentUser!.email;
 
 class NoteDatabase{
 
   static String? id;
 
   Stream<QuerySnapshot> readNotes(){
-    CollectionReference notesCollection =_firebaseFirestore
+    Query notesCollection =_firebaseFirestore
         .collection(AppConstants.referencePath)
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection(AppConstants.collectionPath);
+        .doc(FirebaseAuthDoc)
+        .collection(AppConstants.collectionPath).orderBy('created');
 
     return notesCollection.snapshots();
   }
-
 
   Future<void> addNote(String title, String description,DateTime created)async{
     DocumentReference documentReference=_firebaseFirestore

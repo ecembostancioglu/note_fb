@@ -18,22 +18,21 @@ class _HomePageState extends State<HomePage> {
 
   NoteDatabase noteDatabase=NoteDatabase();
   AuthService authService=AuthService();
-  TextEditingController _searchController=TextEditingController();
+  final TextEditingController _searchController=TextEditingController();
+  String noteText='';
+  Future<QuerySnapshot>? noteDocList;
 
-  @override
-  void initState() {
-   _searchController.addListener(_onSearchChanged);
-  }
 
-  _onSearchChanged(){
-    print(_searchController.text);
-  }
+  initSearchingNote(String textEntered){
+    noteDocList= FirebaseFirestore.instance
+        .collection(AppConstants.collectionPath)
+        .where('title',isLessThanOrEqualTo:textEntered)
+        .get();
 
-  @override
-  void dispose() {
-    _searchController.removeListener(_onSearchChanged);
-    _searchController.dispose();
-    super.dispose();
+    setState(() {
+      noteDocList;
+    });
+    
   }
 
   @override
@@ -55,7 +54,13 @@ class _HomePageState extends State<HomePage> {
                 padding:const EdgeInsets.all(12.0),
                 child: TextField(
                   controller: _searchController,
-                  onChanged:(val){},
+                  onChanged:(textEntered){
+                   setState(() {
+                     noteText=textEntered;
+                   });
+                   initSearchingNote(textEntered);
+                   initSearchingNote(noteText);
+                  },
                   decoration:const InputDecoration(
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
@@ -65,8 +70,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Flexible(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: noteDatabase.readNotes(),
+                  child:
+                  StreamBuilder<QuerySnapshot>(
+                    stream:noteDatabase.readNotes(),
                     builder: (context,snapshot){
                       if(snapshot.hasData || snapshot.data !=null){
                         return ListView.builder(
@@ -85,7 +91,8 @@ class _HomePageState extends State<HomePage> {
                             child: CircularProgressIndicator());
                       }
                     },
-                  ))
+                  )
+              )
             ],
           ),
         ),
