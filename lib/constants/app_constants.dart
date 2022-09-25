@@ -7,6 +7,8 @@ class AppConstants{
   static const String collectionPath='Notes';
   static const String referencePath='Users';
   static const double borderRadius=20.0;
+  static const String noData='No search query found!';
+
 
 }
 

@@ -16,4 +16,3 @@ Future<void> main() async{
             AppConstants.TR_LOCALE ],
           path: AppConstants.LANG_PATH));
 }
-

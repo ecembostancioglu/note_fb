@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:todo_fb/notes/data/repository/note_database.dart';
+import 'package:todo_fb/notes/database/repository/note_database.dart';
 import '../../../authentication/service/auth_service.dart';
 import '../../../constants/app_constants.dart';
 import '../../widgets/sign_out.dart';
@@ -85,7 +85,7 @@ class _SettingsState extends State<Settings> {
                           backgroundColor:MaterialStateProperty
                               .all(buttonColor)),
                         onPressed:(){
-                          noteDatabase.deleteNotes();
+                          noteDatabase.deleteAllNotes();
                         setState(() {
                           _isDeleted=true;
                         });
