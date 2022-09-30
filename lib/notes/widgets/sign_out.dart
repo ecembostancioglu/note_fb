@@ -4,10 +4,28 @@ import '../../authentication/presentation/view/auth_page.dart';
 import '../../authentication/service/auth_service.dart';
 import '../../constants/app_constants.dart';
 
-class SignOutWidget extends StatelessWidget {
+class SignOutWidget extends StatefulWidget {
   const SignOutWidget({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SignOutWidget> createState() => _SignOutWidgetState();
+}
+
+class _SignOutWidgetState extends State<SignOutWidget> {
+
+  AuthService authService=AuthService();
+
+   signOut(){
+     Provider.of<AuthService>(context,listen: false).signOut().then((_)
+    {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(
+          builder: (context)=> AuthPage()));
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +37,7 @@ class SignOutWidget extends StatelessWidget {
             Text('Sign Out'),
             IconButton(
               icon:const Icon(Icons.logout,color: buttonColor),
-              onPressed: ()async{
-                await Provider.of<AuthService>(context,listen: false).signOut().then((_)
-                {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(
-                      builder: (context)=> AuthPage()));
-                });
-              },
+              onPressed:signOut,
             ),
           ],
         )

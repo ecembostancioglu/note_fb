@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AppConstants{
@@ -8,6 +9,7 @@ class AppConstants{
   static const String referencePath='Users';
   static const double borderRadius=20.0;
   static const String noData='No search query found!';
+  static const String created='created';
 
 
 }
@@ -20,6 +22,8 @@ TextEditingController signInPasswordController=TextEditingController();
 TextEditingController registerPasswordController=TextEditingController();
 TextEditingController controlPasswordController=TextEditingController();
 TextEditingController userNameController=TextEditingController();
+TextEditingController searchController=TextEditingController();
+final firebaseAuth=FirebaseAuth.instance;
 
 final colors=[
   const Color(0xffF2D7D9),

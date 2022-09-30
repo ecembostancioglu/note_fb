@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/notes/presentation/view/dashboard.dart';
 import '../../widgets/login_widget.dart';
 
@@ -8,9 +10,11 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final _auth=Provider.of<AuthService>(context,listen: false);
+
     return StreamBuilder<User?>(
-        stream:FirebaseAuth.instance.authStateChanges(),
-        initialData: FirebaseAuth.instance.currentUser,
+        stream:_auth.authStatus(),
         builder:(context,snapshot){
        if(snapshot.hasData){
          return Dashboard();

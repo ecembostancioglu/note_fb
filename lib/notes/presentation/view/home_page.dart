@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/constants/app_constants.dart';
-import '../../database/repository/note_database.dart';
 import '../../widgets/note_view.dart';
 
 
@@ -16,9 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  NoteDatabase noteDatabase=NoteDatabase();
   AuthService authService=AuthService();
-  final TextEditingController _searchController=TextEditingController();
   String query='';
 
 
@@ -40,7 +38,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding:const EdgeInsets.all(12.0),
                 child: TextField(
-                  controller: _searchController,
+                  controller: searchController,
                   onChanged:(textEntered){
                     setState(() {
                      query=textEntered;
@@ -57,18 +55,24 @@ class _HomePageState extends State<HomePage> {
               Flexible(
                   child:
                   StreamBuilder<QuerySnapshot>(
-                    stream:noteDatabase.readNotes(),
+                    stream:FirebaseFirestore.instance
+                        .collection(AppConstants.referencePath)
+                        .doc(FirebaseAuth.instance.currentUser!.email)
+                        .collection(AppConstants.collectionPath)
+                        .orderBy(AppConstants.created)
+                        .snapshots(),
                     builder: (context,snapshot){
                      if(!snapshot.hasData){
-                       return Center(child: CircularProgressIndicator(),);
+                       return const Center(
+                         child: CircularProgressIndicator());
                      }
                      else{
-
                        if(snapshot.data!.docs.where((QueryDocumentSnapshot<Object?> element)
-                       => element['title'].toString().toLowerCase().contains(query.toLowerCase())).isEmpty){
-                         return Center(child: Text(AppConstants.noData),);
+                       => element['title'].toString().toLowerCase()
+                           .contains(query.toLowerCase())).isEmpty){
+                         return const Center(
+                           child: Text(AppConstants.noData),);
                        }
-
                       return ListView(
                         children: [
                           ...snapshot.data!.docs
@@ -76,16 +80,14 @@ class _HomePageState extends State<HomePage> {
                            => element['title'].toString().toLowerCase()
                           .contains(query.toLowerCase()))
                               .map((QueryDocumentSnapshot<Object?> data){
-                                      return NoteView(
-                                      //    id:id,
-                                      //   index:index,
-                                         data:data);
+                                return NoteView(data:data);
                           })
                         ],
                       );
                      }
                     },
-                  )
+                  ),
+
               )
             ],
           ),

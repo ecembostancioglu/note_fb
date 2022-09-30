@@ -8,10 +8,9 @@ import '../../notes/database/repository/user_database.dart';
 
 
 class AuthService extends ChangeNotifier{
-  final firebaseAuth=FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   UserDatabase userDatabase=UserDatabase();
-  late AuthUser authUser;
+  AuthUser? authUser;
 
   Future<User?> createUserWithEmailandPassword(String name,String email,String password)async{
     final user=await firebaseAuth.createUserWithEmailAndPassword(
@@ -24,9 +23,6 @@ class AuthService extends ChangeNotifier{
       'email':user.user!.email,
     'userUid':user.user!.uid,
     'userName':user.user!.displayName});
-    authUser.email=user.user!.email!;
-    authUser.userName=user.user!.displayName!;
-    authUser.authUserId=user.user!.uid;
       notifyListeners();
     return user.user;
   }
@@ -35,6 +31,7 @@ class AuthService extends ChangeNotifier{
     final userCredential=await firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     notifyListeners();
+    print('${userCredential.user}');
     return userCredential.user;
   }
 
@@ -60,9 +57,15 @@ class AuthService extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> signOut() async{
-    await firebaseAuth.signOut();
-    await _googleSignIn.signOut();
-    notifyListeners();
+  Future<void> signOut()async{
+
+  await firebaseAuth.signOut();
+  await _googleSignIn.signOut();
   }
+
+  Stream<User?> authStatus(){
+    return firebaseAuth.authStateChanges();
+  }
+
+
 }

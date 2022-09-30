@@ -3,25 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 
 final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
-final String? FirebaseAuthDoc=FirebaseAuth.instance.currentUser!.email;
+final String? firebaseAuthDoc=FirebaseAuth.instance.currentUser!.email;
 
 class NoteDatabase{
 
   static String? id;
 
-  Stream<QuerySnapshot> readNotes(){
-      Query notesCollection =_firebaseFirestore
-        .collection(AppConstants.referencePath)
-        .doc(FirebaseAuthDoc)
-        .collection(AppConstants.collectionPath).orderBy('created');
-
-    return notesCollection.snapshots();
-  }
-
   Future<void> addNote(String title, String description,DateTime created)async{
     DocumentReference documentReference=_firebaseFirestore
         .collection(AppConstants.referencePath)
-        .doc(FirebaseAuth.instance.currentUser!.email)
+        .doc(firebaseAuthDoc)
         .collection(AppConstants.collectionPath).doc(id);
 
     Map<String,dynamic> data=<String,dynamic>{
@@ -38,7 +29,7 @@ class NoteDatabase{
    Future<void> deleteNote({required String id})async{
     DocumentReference documentReference=_firebaseFirestore
         .collection(AppConstants.referencePath)
-        .doc(FirebaseAuth.instance.currentUser!.email)
+        .doc(firebaseAuthDoc)
         .collection(AppConstants.collectionPath)
         .doc(id);
 
@@ -49,7 +40,7 @@ class NoteDatabase{
   Future<void> deleteAllNotes()async{
     CollectionReference coll=_firebaseFirestore
         .collection(AppConstants.referencePath)
-        .doc(FirebaseAuth.instance.currentUser!.email)
+        .doc(firebaseAuthDoc)
         .collection(AppConstants.collectionPath);
 
     final futureQuery= coll.get();
@@ -61,7 +52,7 @@ class NoteDatabase{
   Future<void> update(Map<String,Object?>data)async{
     return await FirebaseFirestore.instance
         .collection(AppConstants.referencePath)
-        .doc(FirebaseAuth.instance.currentUser!.email).update(data);
+        .doc(firebaseAuthDoc).update(data);
 
   }
 
