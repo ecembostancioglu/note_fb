@@ -33,6 +33,8 @@ class _SettingsState extends State<Settings> {
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +44,9 @@ class _SettingsState extends State<Settings> {
           width: ScreenUtil().screenWidth,
           height: ScreenUtil().screenHeight,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
               Padding(
                   padding: EdgeInsets.all(20),
                 child: Row(
