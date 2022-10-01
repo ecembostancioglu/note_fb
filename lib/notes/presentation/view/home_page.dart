@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                         .collection(AppConstants.collectionPath)
                         .orderBy(AppConstants.created)
                         .snapshots(),
-                    builder: (context,snapshot){
+                    builder:(context,snapshot){
                      if(!snapshot.hasData){
                        return const Center(
                          child: CircularProgressIndicator());
@@ -87,7 +87,6 @@ class _HomePageState extends State<HomePage> {
                      }
                     },
                   ),
-
               )
             ],
           ),

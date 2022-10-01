@@ -22,11 +22,10 @@ class _SettingsState extends State<Settings> {
   String? dropdownvalue='English';
   final _globalKey=GlobalKey<FormState>();
 
-  TextEditingController nameController=TextEditingController();
 
   Future update(){
     Map<String,dynamic> data=<String,dynamic>{
-      'userName':nameController.text
+      'userName':userNameController.text
     };
     return FirebaseFirestore.instance
         .collection(AppConstants.referencePath)
@@ -54,10 +53,10 @@ class _SettingsState extends State<Settings> {
                     Expanded(
                       child: TextFormField(
                         key: _globalKey,
-                        controller: nameController,
+                        controller: userNameController,
                         onChanged: (displayName){
                           setState(() {
-                             displayName=nameController.text;
+                             displayName=userNameController.text;
                           });
                         },
                         decoration: InputDecoration(

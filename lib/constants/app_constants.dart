@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,8 @@ TextEditingController controlPasswordController=TextEditingController();
 TextEditingController userNameController=TextEditingController();
 TextEditingController searchController=TextEditingController();
 final firebaseAuth=FirebaseAuth.instance;
+final FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
+final String? firebaseAuthDoc=FirebaseAuth.instance.currentUser!.email;
 
 final colors=[
   const Color(0xffF2D7D9),

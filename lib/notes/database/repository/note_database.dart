@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_fb/constants/app_constants.dart';
-
-final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
-final String? firebaseAuthDoc=FirebaseAuth.instance.currentUser!.email;
 
 class NoteDatabase{
 
   static String? id;
 
   Future<void> addNote(String title, String description,DateTime created)async{
-    DocumentReference documentReference=_firebaseFirestore
+    DocumentReference documentReference=firebaseFirestore
         .collection(AppConstants.referencePath)
         .doc(firebaseAuthDoc)
         .collection(AppConstants.collectionPath).doc(id);
@@ -27,7 +23,7 @@ class NoteDatabase{
   }
   
    Future<void> deleteNote({required String id})async{
-    DocumentReference documentReference=_firebaseFirestore
+    DocumentReference documentReference=firebaseFirestore
         .collection(AppConstants.referencePath)
         .doc(firebaseAuthDoc)
         .collection(AppConstants.collectionPath)
@@ -38,7 +34,7 @@ class NoteDatabase{
   }
 
   Future<void> deleteAllNotes()async{
-    CollectionReference coll=_firebaseFirestore
+    CollectionReference coll=firebaseFirestore
         .collection(AppConstants.referencePath)
         .doc(firebaseAuthDoc)
         .collection(AppConstants.collectionPath);
@@ -47,13 +43,6 @@ class NoteDatabase{
     await futureQuery.then((value) => value.docs.forEach((element) {
       element.reference.delete();
     }));
-  }
-
-  Future<void> update(Map<String,Object?>data)async{
-    return await FirebaseFirestore.instance
-        .collection(AppConstants.referencePath)
-        .doc(firebaseAuthDoc).update(data);
-
   }
 
 }

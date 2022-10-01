@@ -17,13 +17,13 @@ class _SignOutWidgetState extends State<SignOutWidget> {
 
   AuthService authService=AuthService();
 
-   signOut(){
-     Provider.of<AuthService>(context,listen: false).signOut().then((_)
-    {
+     signOut(){
+     Provider.of<AuthService>(context,listen: false).signOut();
       Navigator.pushReplacement(
-          context, MaterialPageRoute(
-          builder: (context)=> AuthPage()));
-    });
+                 context, MaterialPageRoute(
+                 builder: (context)=> AuthPage()));
+
+
 
   }
 

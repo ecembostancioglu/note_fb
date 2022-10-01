@@ -23,6 +23,8 @@ class AuthService extends ChangeNotifier{
       'email':user.user!.email,
     'userUid':user.user!.uid,
     'userName':user.user!.displayName});
+    User? userr=user.user;
+    userr!.updateDisplayName(user.user!.displayName);
       notifyListeners();
     return user.user;
   }
@@ -60,11 +62,22 @@ class AuthService extends ChangeNotifier{
   Future<void> signOut()async{
 
   await firebaseAuth.signOut();
-  await _googleSignIn.signOut();
+
+  if(_googleSignIn.signIn==ConnectionState.active){
+    await _googleSignIn.signOut();
+  }
+  notifyListeners();
   }
 
   Stream<User?> authStatus(){
     return firebaseAuth.authStateChanges();
+  }
+
+  Future<void> update(Map<String,Object?>data)async{
+    return await FirebaseFirestore.instance
+        .collection(AppConstants.referencePath)
+        .doc(firebaseAuthDoc).update(data);
+
   }
 
 
