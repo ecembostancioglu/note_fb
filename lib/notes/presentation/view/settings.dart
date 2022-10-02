@@ -28,13 +28,12 @@ class _SettingsState extends State<Settings> {
   String? dropdownvalue='English';
   final _globalKey=GlobalKey<FormState>();
   SharedPreferences? sharedPreferences;
-//  ImageByte imageUpload;
+  Uint8List? imageBytes;
 
   @override
   void initState() {
+    Provider.of<UploadImageProvider>(context, listen: false).base64ToImage();
     super.initState();
-    Provider.of<UploadImageProvider>(context,listen:false)
-        .initSharedPreferences();
   }
 
 
@@ -62,9 +61,8 @@ class _SettingsState extends State<Settings> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    setState(() {
                       Provider.of<UploadImageProvider>(context, listen: false).pickImage(context);
-                    });
+                      Provider.of<UploadImageProvider>(context, listen: false).base64ToImage();
                   },
                   child: Consumer<UploadImageProvider>(
                     builder: (context,state,child)
@@ -170,7 +168,7 @@ class UserAvatar extends StatelessWidget {
     required this.imageUpload,
   }) : super(key: key);
 
-   ImageByte imageUpload;
+   ImagesByte imageUpload;
 
   @override
   Widget build(BuildContext context) {

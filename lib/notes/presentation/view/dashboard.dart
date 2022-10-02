@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_fb/notes/presentation/view/home_page.dart';
 import 'package:todo_fb/notes/presentation/view/settings.dart';
 import '../../../constants/app_constants.dart';
+import '../../database/provider/image_provider.dart';
 import '../../widgets/add_note.dart';
 
 class Dashboard extends StatefulWidget {
@@ -19,6 +21,11 @@ class _DashboardState extends State<Dashboard> {
     Settings()
   ];
 
+@override
+  void initState() {
+  Provider.of<UploadImageProvider>(context,listen:false).initSharedPreferences();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
