@@ -10,7 +10,7 @@ import 'package:todo_fb/notes/database/repository/note_database.dart';
 import 'package:todo_fb/notes/domain/models/image_byte.dart';
 import '../../../authentication/service/auth_service.dart';
 import '../../../constants/app_constants.dart';
-import '../../database/repository/image_provider.dart';
+import '../../database/provider/image_provider.dart';
 import '../../widgets/sign_out.dart';
 
 class Settings extends StatefulWidget {

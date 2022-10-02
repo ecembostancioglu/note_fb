@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/presentation/view/auth_page.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
-import 'package:todo_fb/notes/database/repository/image_provider.dart';
+import 'package:todo_fb/notes/database/provider/image_provider.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
