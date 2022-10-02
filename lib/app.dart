@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/presentation/view/auth_page.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
+import 'package:todo_fb/notes/database/repository/image_provider.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -16,14 +17,19 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360,690),
         builder: (context,widget)
-        => ChangeNotifierProvider(
-            create: (context)=>AuthService(),
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              home: FutureBuilder(
+        => MultiProvider(
+            providers: [
+            ChangeNotifierProvider<AuthService>(
+            create:(context)=>AuthService(),),
+             ChangeNotifierProvider<UploadImageProvider>(
+             create:(context)=>UploadImageProvider()),
+        ],
+          child:MaterialApp(
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          home: FutureBuilder(
               future: _initialization,
               builder: (context,snapshot){
                 if(snapshot.hasError){
@@ -36,6 +42,9 @@ class MyApp extends StatelessWidget {
                     child:CircularProgressIndicator());
               }
           ),
-        ),));
+        ),
+    ),
+
+        );
   }
 }

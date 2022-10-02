@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 
-class Image{
-  Uint8List? imageBytes;
+class ImageByte{
+  Uint8List imageBytes;
 
-  Image({required this.imageBytes});
+  ImageByte({required this.imageBytes});
 
-  Image.fromMap(Map map):imageBytes = _getImageBinary(map['imageBytes']);
+  ImageByte.fromMap(Map map):imageBytes = _getImageBinary(map['imageBytes']);
 
   Map toMap(){
     return{
