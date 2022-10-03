@@ -45,7 +45,8 @@ dependencies:
   email_validator: ^2.1.17
   motion_toast: ^2.3.2
   flutter_slidable: ^2.0.0
-
+  shared_preferences: ^2.0.15
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:
