@@ -81,4 +81,15 @@ class AuthService extends ChangeNotifier{
   }
 
 
+  Future updateName(){
+    Map<String,dynamic> data=<String,dynamic>{
+      'userName':userNameController.text
+    };
+    return FirebaseFirestore.instance
+        .collection(AppConstants.referencePath)
+        .doc(FirebaseAuth.instance.currentUser!.email).update(data);
+
+  }
+
+
 }

@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -33,18 +31,6 @@ class _SettingsState extends State<Settings> {
     Provider.of<UploadImageProvider>(context, listen: false).base64ToImage();
     super.initState();
   }
-
-
-  Future update(){
-    Map<String,dynamic> data=<String,dynamic>{
-      'userName':userNameController.text
-    };
-    return FirebaseFirestore.instance
-        .collection(AppConstants.referencePath)
-        .doc(FirebaseAuth.instance.currentUser!.email).update(data);
-
-  }
-
 
 
   @override
@@ -94,7 +80,9 @@ class _SettingsState extends State<Settings> {
                           },
                           decoration: InputDecoration(
                               suffixIcon: IconButton(
-                                onPressed:update,
+                                onPressed:(){
+                                  Provider.of<AuthService>(context,listen: false).updateName();
+                                },
                                 icon:const Icon(Icons.change_circle_outlined,
                                     color: buttonColor),
                               ),
