@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/domain/models/auth_user.dart';
 import '../../notes/database/repository/user_database.dart';
 
 
-class AuthService extends ChangeNotifier{
+class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   UserDatabase userDatabase=UserDatabase();
   AuthUser? authUser;
+
 
   Future<User?> createUserWithEmailandPassword(String name,String email,String password)async{
     final user=await firebaseAuth.createUserWithEmailAndPassword(
@@ -25,15 +25,13 @@ class AuthService extends ChangeNotifier{
     'userName':user.user!.displayName});
     User? userr=user.user;
     userr!.updateDisplayName(user.user!.displayName);
-      notifyListeners();
     return user.user;
   }
 
   Future<User?> signInWithEmailandPassword(String email,String password)async{
     final userCredential=await firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-    notifyListeners();
-    print('${userCredential.user}');
+    print('SIGN IN WİTH EMAIL AND PASSWORD ${userCredential.user}');
     return userCredential.user;
   }
 
@@ -56,17 +54,6 @@ class AuthService extends ChangeNotifier{
       print(e.message);
       rethrow;
     }
-    notifyListeners();
-  }
-
-  Future<void> signOut()async{
-
-  await firebaseAuth.signOut();
-
-  if(_googleSignIn.signIn==ConnectionState.active){
-    await _googleSignIn.signOut();
-  }
-  notifyListeners();
   }
 
   Stream<User?> authStatus(){
@@ -76,7 +63,7 @@ class AuthService extends ChangeNotifier{
   Future<void> update(Map<String,Object?>data)async{
     return await FirebaseFirestore.instance
         .collection(AppConstants.referencePath)
-        .doc(firebaseAuthDoc).update(data);
+        .doc(FirebaseAuth.instance.currentUser!.email).update(data);
 
   }
 
@@ -89,6 +76,18 @@ class AuthService extends ChangeNotifier{
         .collection(AppConstants.referencePath)
         .doc(FirebaseAuth.instance.currentUser!.email).update(data);
 
+  }
+
+  Future<void> signOut() async {
+    if (_googleSignIn.currentUser != null) {
+      await _googleSignIn.disconnect();
+      await _googleSignIn.signOut();
+      FirebaseAuth.instance.signOut();
+    }
+    else {
+      await FirebaseAuth.instance.signOut();
+
+    }
   }
 
 

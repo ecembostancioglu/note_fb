@@ -52,6 +52,9 @@ class _SettingsState extends State<Settings> {
                       builder: (context,state,child)
                       =>state.profileImage !=null
                           ? CircleAvatar(
+                        backgroundColor: state.profileImage ==ConnectionState.waiting
+                            ? Colors.red
+                            : Colors.blue,
                         backgroundImage: MemoryImage(state.profileImage!),
                         radius: 100,
                       )

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/constants/app_constants.dart';
+import 'package:todo_fb/notes/database/repository/note_database.dart';
 import '../../widgets/note_view.dart';
 
 
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   AuthService authService=AuthService();
   String query='';
+  NoteDatabase noteDatabase=NoteDatabase();
 
 
   @override
@@ -53,40 +55,37 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Flexible(
-                  child:
-                  StreamBuilder<QuerySnapshot>(
-                    stream:FirebaseFirestore.instance
-                        .collection(AppConstants.referencePath)
-                        .doc(FirebaseAuth.instance.currentUser!.email)
-                        .collection(AppConstants.collectionPath)
-                        .orderBy(AppConstants.created)
-                        .snapshots(),
-                    builder:(context,snapshot){
-                     if(!snapshot.hasData){
+                  child:StreamBuilder<QuerySnapshot?>(
+                   stream:firebaseFirestore
+                       .collection('Users')
+                       .doc(FirebaseAuth.instance.currentUser!.email)
+                       .collection('Notes')
+                       .orderBy('created')
+                       .snapshots(),
+                      builder:(context,snapshot) {
+                     if (!snapshot.hasData) {
+                     return const Center(
+                       child: CircularProgressIndicator());}
+                     else {
+                     if (snapshot.data!.docs.where((QueryDocumentSnapshot<Object?> element) =>
+                      element['title'].toString().toLowerCase()
+                      .contains(query.toLowerCase())).isEmpty) {
                        return const Center(
-                         child: CircularProgressIndicator());
-                     }
-                     else{
-                       if(snapshot.data!.docs.where((QueryDocumentSnapshot<Object?> element)
+                          child: Text(AppConstants.noData),);
+                        }
+                       return ListView(
+                    children: [
+                      ...snapshot.data!.docs
+                      .where((QueryDocumentSnapshot<Object?> element)
                        => element['title'].toString().toLowerCase()
-                           .contains(query.toLowerCase())).isEmpty){
-                         return const Center(
-                           child: Text(AppConstants.noData),);
-                       }
-                      return ListView(
-                        children: [
-                          ...snapshot.data!.docs
-                          .where((QueryDocumentSnapshot<Object?> element)
-                           => element['title'].toString().toLowerCase()
-                          .contains(query.toLowerCase()))
-                              .map((QueryDocumentSnapshot<Object?> data){
-                                return NoteView(data:data);
-                          })
-                        ],
-                      );
-                     }
-                    },
-                  ),
+                    .contains(query.toLowerCase()))
+                        .map((QueryDocumentSnapshot<Object?> data) {
+                          return NoteView(data: data);
+                       })
+                     ],
+                   );
+                  }}
+                )
               )
             ],
           ),

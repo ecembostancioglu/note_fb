@@ -26,7 +26,6 @@ TextEditingController userNameController=TextEditingController();
 TextEditingController searchController=TextEditingController();
 final firebaseAuth=FirebaseAuth.instance;
 final FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
-final String? firebaseAuthDoc=FirebaseAuth.instance.currentUser!.email;
 
 final colors=[
   const Color(0xffF2D7D9),

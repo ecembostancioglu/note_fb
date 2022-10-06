@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       builder: (context,widget)
       => MultiProvider(
         providers: [
-          ChangeNotifierProvider<AuthService>(
+            Provider<AuthService>(
             create:(context)=>AuthService(),),
           ChangeNotifierProvider<UploadImageProvider>(
               create:(context)=>UploadImageProvider()),
