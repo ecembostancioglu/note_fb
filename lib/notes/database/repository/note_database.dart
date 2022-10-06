@@ -6,16 +6,6 @@ class NoteDatabase {
 
   static String? id;
 
-
-  Future<QuerySnapshot> getNoteList(String referencePath,
-      String collectionPath) {
-    return firebaseFirestore
-        .collection(referencePath)
-          .doc(firebaseAuth.currentUser!.email)
-          .collection(collectionPath).get();
-
-  }
-
   Stream<QuerySnapshot> readNotes(){
     Query notesCollection =firebaseFirestore
         .collection('Users')

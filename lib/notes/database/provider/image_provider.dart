@@ -3,21 +3,21 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_fb/notes/domain/models/image_byte.dart';
+import 'package:todo_fb/notes/domain/models/image_list.dart';
 
 class UploadImageProvider with ChangeNotifier{
   String imageKey = 'IMG_KEY';
-  List<ImagesByte> images=[];
+  List<ImagesList> images=[];
   SharedPreferences? sharedPreferences;
   Uint8List? imageBytes;
   Uint8List? profileImage;
 
-  void addTodo(ImagesByte image) {
+  void addImage(ImagesList image) {
     images.add(image);
     saveDataToLocalStorage();
     notifyListeners();
-
   }
+
 
   void initSharedPreferences() async {
     sharedPreferences = await SharedPreferences.getInstance();

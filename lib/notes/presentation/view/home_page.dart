@@ -56,16 +56,12 @@ class _HomePageState extends State<HomePage> {
               ),
               Flexible(
                   child:StreamBuilder<QuerySnapshot?>(
-                   stream:firebaseFirestore
-                       .collection('Users')
-                       .doc(FirebaseAuth.instance.currentUser!.email)
-                       .collection('Notes')
-                       .orderBy('created')
-                       .snapshots(),
+                   stream:noteDatabase.readNotes(),
                       builder:(context,snapshot) {
                      if (!snapshot.hasData) {
                      return const Center(
-                       child: CircularProgressIndicator());}
+                       child: CircularProgressIndicator());
+                     }
                      else {
                      if (snapshot.data!.docs.where((QueryDocumentSnapshot<Object?> element) =>
                       element['title'].toString().toLowerCase()

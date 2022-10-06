@@ -1,9 +1,11 @@
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
+import 'package:todo_fb/notes/domain/models/image_list.dart';
 import '../../../authentication/service/auth_service.dart';
 import '../../../constants/app_constants.dart';
 import '../../database/provider/image_provider.dart';
@@ -46,7 +48,15 @@ class _SettingsState extends State<Settings> {
                 GestureDetector(
                   onTap: (){
                     Provider.of<UploadImageProvider>(context, listen: false).pickImage(context);
-                    Provider.of<UploadImageProvider>(context, listen: false).base64ToImage();
+                    Uint8List? imageBytes=Provider.of<UploadImageProvider>(context, listen: false).base64ToImage();
+                    ImagesList images=ImagesList(
+                        imageBytes: imageBytes!,
+                        email: FirebaseAuth.instance.currentUser!.email!);
+                         if(images != null)
+                        {
+                           Provider.of<UploadImageProvider>(context,listen: false).addImage(images);
+                        }
+
                   },
                   child: Consumer<UploadImageProvider>(
                       builder: (context,state,child)
