@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
+import 'package:todo_fb/notes/services/calculator.dart';
 
 
 class AddNote extends StatefulWidget {
@@ -34,7 +35,8 @@ class _AddNoteState extends State<AddNote> {
                   initialDate:DateTime.now(),
                   firstDate:DateTime(-1000),
                   lastDate:DateTime.now());
-            print(_selectedDate);
+            String finishDate=Calculator.dateTimeToString(_selectedDate!);
+            print(finishDate);
             },
             icon: Icon(Icons.calendar_month),
           )

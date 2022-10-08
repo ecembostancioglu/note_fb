@@ -1,7 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
+
 class Calculator{
 
   static String dateTimeToString(DateTime dateTime){
-    return dateTime.toIso8601String();
+
+    String formattedDate=DateFormat('yyyy/MM/dd').format(dateTime);
+    return formattedDate;
   }
 
 }
