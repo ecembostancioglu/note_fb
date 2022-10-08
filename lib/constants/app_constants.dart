@@ -24,6 +24,8 @@ TextEditingController registerPasswordController=TextEditingController();
 TextEditingController controlPasswordController=TextEditingController();
 TextEditingController userNameController=TextEditingController();
 TextEditingController searchController=TextEditingController();
+TextEditingController titleCtr=TextEditingController();
+TextEditingController descCtr=TextEditingController();
 final firebaseAuth=FirebaseAuth.instance;
 final FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
 

@@ -15,8 +15,6 @@ class AddNote extends StatefulWidget {
 class _AddNoteState extends State<AddNote> {
 
   final _addNoteFromKey=GlobalKey<FormState>();
-  TextEditingController titleCtr=TextEditingController();
-  TextEditingController descCtr=TextEditingController();
 
   NoteDatabase database=NoteDatabase();
   bool isProcessing=false;
@@ -33,7 +31,7 @@ class _AddNoteState extends State<AddNote> {
        titleCtr.text,
        descCtr.text,
        DateTime.now(),
-       finishDate!
+       finishDate
     );
    if(mounted){
      setState(() {

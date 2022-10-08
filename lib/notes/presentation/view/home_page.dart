@@ -5,6 +5,7 @@ import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
 import '../../widgets/note_view.dart';
+import 'update_note.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -68,17 +69,22 @@ class _HomePageState extends State<HomePage> {
                        return const Center(
                           child: Text(AppConstants.noData),);
                         }
-                       return ListView(
-                    children: [
-                      ...snapshot.data!.docs
-                      .where((QueryDocumentSnapshot<Object?> element)
-                       => element['title'].toString().toLowerCase()
-                    .contains(query.toLowerCase()))
-                        .map((QueryDocumentSnapshot<Object?> data) {
-                          return NoteView(data: data);
-                       })
-                     ],
-                   );
+                        return ListView(
+                         children: [
+                           ...snapshot.data!.docs
+                               .where((QueryDocumentSnapshot<Object?> element)
+                           => element['title'].toString().toLowerCase()
+                               .contains(query.toLowerCase()))
+                               .map((QueryDocumentSnapshot<Object?> data) {
+                             return GestureDetector(
+                                 onTap: (){
+                                   Navigator.push(context, MaterialPageRoute(
+                                       builder: (context)=>UpdateNote(noteId:snapshot.data!.docs[0])));
+                                 },
+                                 child: NoteView(data: data));
+                           })
+                         ],
+                       );
                   }}
                 )
               )

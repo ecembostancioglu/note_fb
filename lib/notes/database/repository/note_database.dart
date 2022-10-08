@@ -17,7 +17,7 @@ class NoteDatabase {
   }
 
 
-  Future<void> addNote(String title, String description,DateTime created,String finishDate)async{
+  Future<void> addNote(String title, String description,DateTime created,String? finishDate)async{
     DocumentReference documentReference=firebaseFirestore
         .collection(AppConstants.referencePath)
         .doc(FirebaseAuth.instance.currentUser!.email)
@@ -57,5 +57,20 @@ class NoteDatabase {
       element.reference.delete();
     }));
   }
+
+  Future updateNote(String? title,String? description,DateTime? created,String? finishDate,String noteId){
+    Map<String,dynamic> data=<String,dynamic>{
+      'title':title,
+      'description':description,
+      'created':created,
+      'finishDate':finishDate,
+    };
+    return FirebaseFirestore.instance
+        .collection(AppConstants.referencePath)
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection(AppConstants.collectionPath).doc(noteId).update(data);
+
+  }
+
 
 }
