@@ -35,9 +35,11 @@ class _AddNoteState extends State<AddNote> {
        DateTime.now(),
        finishDate!
     );
-    setState(() {
-      isProcessing=false;
+   if(mounted){
+     setState(() {
+       isProcessing=false;
      });
+   }
   }
 
 
