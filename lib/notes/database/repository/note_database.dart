@@ -17,7 +17,7 @@ class NoteDatabase {
   }
 
 
-  Future<void> addNote(String title, String description,DateTime created)async{
+  Future<void> addNote(String title, String description,DateTime created,String finishDate)async{
     DocumentReference documentReference=firebaseFirestore
         .collection(AppConstants.referencePath)
         .doc(FirebaseAuth.instance.currentUser!.email)
@@ -27,6 +27,7 @@ class NoteDatabase {
       'title':title,
       'description':description,
       'created':created,
+      'finishDate':finishDate,
     };
 
     await documentReference.set(data).whenComplete(() =>

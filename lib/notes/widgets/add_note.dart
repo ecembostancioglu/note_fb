@@ -19,7 +19,27 @@ class _AddNoteState extends State<AddNote> {
   TextEditingController descCtr=TextEditingController();
 
   NoteDatabase database=NoteDatabase();
-  bool _isProcessing=false;
+  bool isProcessing=false;
+  String? finishDate;
+
+
+  Future<void> getNote() async{
+  if(_addNoteFromKey.currentState!.validate()){
+     setState(() {
+       isProcessing=true;
+      });
+    }
+      await database.addNote(
+       titleCtr.text,
+       descCtr.text,
+       DateTime.now(),
+       finishDate!
+    );
+    setState(() {
+      isProcessing=false;
+     });
+  }
+
 
 
   @override
@@ -30,15 +50,15 @@ class _AddNoteState extends State<AddNote> {
         actions: [
           IconButton(
             onPressed: ()async{
-            var _selectedDate=await showDatePicker(
+            var selectedDate=await showDatePicker(
                   context: context,
                   initialDate:DateTime.now(),
                   firstDate:DateTime(-1000),
-                  lastDate:DateTime.now());
-            String finishDate=Calculator.dateTimeToString(_selectedDate!);
+                  lastDate:DateTime(3000));
+            finishDate=Calculator.dateTimeToString(selectedDate!);
             print(finishDate);
             },
-            icon: Icon(Icons.calendar_month),
+            icon: const Icon(Icons.calendar_month),
           )
         ],
         leading:IconButton(
@@ -82,27 +102,16 @@ class _AddNoteState extends State<AddNote> {
                   ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
+                          const RoundedRectangleBorder(
                           borderRadius:borderRad)),
                       minimumSize: MaterialStateProperty.all(Size(160.w,50.h)),
                       elevation: MaterialStateProperty.all(8),
                     backgroundColor:MaterialStateProperty.all(buttonColor)),
-                      onPressed: ()async{
-                        if(_addNoteFromKey.currentState!.validate()){
-                          setState(() {
-                            _isProcessing=true;
-                          });
-                        }
-                        await database.addNote(
-                            titleCtr.text,
-                            descCtr.text,
-                            DateTime.now());
-                        setState(() {
-                          _isProcessing=false;
-                        });
-                        Navigator.pop(context);
+                      onPressed:(){
+                      getNote();
+                      Navigator.pop(context);
                       },
-                      child: Text('Save'))
+                      child: const Text('Save'))
                 ],
               ),
             ),
