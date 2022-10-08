@@ -26,6 +26,19 @@ class _AddNoteState extends State<AddNote> {
     return Scaffold(
       appBar:AppBar(
         backgroundColor:buttonColor,
+        actions: [
+          IconButton(
+            onPressed: ()async{
+            var _selectedDate=await showDatePicker(
+                  context: context,
+                  initialDate:DateTime.now(),
+                  firstDate:DateTime(-1000),
+                  lastDate:DateTime.now());
+            print(_selectedDate);
+            },
+            icon: Icon(Icons.calendar_month),
+          )
+        ],
         leading:IconButton(
             onPressed: (){
               Navigator.of(context).pop();},
