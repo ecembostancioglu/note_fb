@@ -28,6 +28,7 @@ class _SettingsState extends State<Settings> {
   SharedPreferences? sharedPreferences;
   Uint8List? imageBytes;
 
+
   @override
   void initState() {
     Provider.of<UploadImageProvider>(context, listen: false).base64ToImage();
@@ -40,7 +41,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
         resizeToAvoidBottomInset:false,
         body:SafeArea(
-          child: Container(
+          child: SizedBox(
             width: ScreenUtil().screenWidth,
             height: ScreenUtil().screenHeight,
             child: Column(

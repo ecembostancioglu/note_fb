@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
+import '../../domain/models/auth_user.dart';
 import '../../widgets/note_view.dart';
 
 
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Padding(
                 padding:const EdgeInsets.all(20),
-                child: Text('Welcome',
+                child: Text('Welcome ${userNameController.text}',
                     style: TextStyle(fontSize: 21.sp)),),
               Padding(
                 padding:const EdgeInsets.all(12.0),
