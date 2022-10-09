@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                              return GestureDetector(
                                  onTap: (){
                                    Navigator.push(context, MaterialPageRoute(
-                                       builder: (context)=>UpdateNote(noteId:snapshot.data!.docs[0])));
+                                       builder: (context)=>UpdateNote(noteId:data.id)));
                                  },
                                  child: NoteView(data: data));
                            })

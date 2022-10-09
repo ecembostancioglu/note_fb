@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../constants/app_constants.dart';
 import '../../database/repository/note_database.dart';
+import '../../domain/models/note.dart';
 import '../../services/calculator.dart';
+
 
 class UpdateNote extends StatefulWidget {
    UpdateNote({Key? key,required this.noteId}) : super(key: key);
@@ -16,12 +18,11 @@ class UpdateNote extends StatefulWidget {
 class _UpdateNoteState extends State<UpdateNote> {
 
   final _updateNoteFromKey=GlobalKey<FormState>();
-//  TextEditingController updateTitleCtr=TextEditingController();
-//  TextEditingController updateDescCtr=TextEditingController();
 
   NoteDatabase database=NoteDatabase();
   bool isProcessing=false;
   String? updateFinishDate;
+  Note? note;
 
 
 
@@ -32,8 +33,8 @@ class _UpdateNoteState extends State<UpdateNote> {
       });
     }
     await database.updateNote(
-        titleCtr.text,
-        descCtr.text,
+        updateTitleCtr.text,
+        updateDescCtr.text,
         DateTime.now(),
         updateFinishDate,
         widget.noteId
@@ -62,7 +63,6 @@ class _UpdateNoteState extends State<UpdateNote> {
                   firstDate:DateTime(-1000),
                   lastDate:DateTime(3000));
               updateFinishDate=Calculator.dateTimeToString(selectedDate!);
-              print(updateFinishDate);
             },
             icon: const Icon(Icons.calendar_month),
           )
@@ -87,8 +87,9 @@ class _UpdateNoteState extends State<UpdateNote> {
                             borderRadius: borderRad
                         ),
                         hintText:'Title'),
-                    onChanged: (val){
-                      titleCtr.text=val;
+                    onChanged:(val){
+                  //    titleCtr.text=val;
+                      updateTitleCtr.value= TextEditingController.fromValue(TextEditingValue(text:titleCtr.text)).value;
                     },
                   ),
                 ),
@@ -103,7 +104,7 @@ class _UpdateNoteState extends State<UpdateNote> {
                         ),
                         hintText:'Note Description'),
                     onChanged: (val){
-                      descCtr.text=val;
+                      updateDescCtr.value= TextEditingController.fromValue(TextEditingValue(text:descCtr.text)).value;
                     },
                   ),
                 ),

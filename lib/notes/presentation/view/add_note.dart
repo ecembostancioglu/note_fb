@@ -4,6 +4,8 @@ import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
 import 'package:todo_fb/notes/services/calculator.dart';
 
+import '../../domain/models/note.dart';
+
 
 class AddNote extends StatefulWidget {
   const AddNote({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class _AddNoteState extends State<AddNote> {
   NoteDatabase database=NoteDatabase();
   bool isProcessing=false;
   String? finishDate;
+  Note? note;
 
 
   Future<void> getNote() async{
@@ -57,6 +60,7 @@ class _AddNoteState extends State<AddNote> {
                   lastDate:DateTime(3000));
             finishDate=Calculator.dateTimeToString(selectedDate!);
             print(finishDate);
+            note!.finishDate=finishDate!;
             },
             icon: const Icon(Icons.calendar_month),
           )
