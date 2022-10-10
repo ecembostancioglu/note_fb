@@ -25,7 +25,6 @@ class _UpdateNoteState extends State<UpdateNote> {
   Note? note;
 
 
-
   Future<void> updateNote() async{
     if(_updateNoteFromKey.currentState!.validate()){
       setState(() {
@@ -46,8 +45,6 @@ class _UpdateNoteState extends State<UpdateNote> {
       });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {

@@ -21,8 +21,6 @@ class _AddNoteState extends State<AddNote> {
   NoteDatabase database=NoteDatabase();
   bool isProcessing=false;
   String? finishDate;
-  Note? note;
-
 
   Future<void> getNote() async{
   if(_addNoteFromKey.currentState!.validate()){
@@ -60,7 +58,6 @@ class _AddNoteState extends State<AddNote> {
                   lastDate:DateTime(3000));
             finishDate=Calculator.dateTimeToString(selectedDate!);
             print(finishDate);
-            note!.finishDate=finishDate!;
             },
             icon: const Icon(Icons.calendar_month),
           )
