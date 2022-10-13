@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -54,6 +55,24 @@ class UploadImageProvider with ChangeNotifier{
         ? null
         : profileImage = base64.decode(data);
     return profileImage;
+  }
+
+}
+
+
+class ImageUpload{
+
+  File? _image;
+  final picker=ImagePicker();
+
+  Future getImage() async{
+    final pickedFile=await picker.getImage(source: ImageSource.camera);
+
+    if(pickedFile != null){
+      _image=File(pickedFile.path);
+    }else{
+      print('No image selected.');
+    }
   }
 
 }

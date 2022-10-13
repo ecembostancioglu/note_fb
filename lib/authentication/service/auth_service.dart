@@ -21,7 +21,8 @@ class AuthService {
         .set({
       'email':user.user!.email,
     'userUid':user.user!.uid,
-    'userName':user.user!.displayName});
+    'userName':user.user!.displayName,
+    'photoUrl':user.user!.photoURL});
     User? userr=user.user;
     userr!.updateDisplayName(user.user!.displayName);
     return user.user;

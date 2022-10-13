@@ -4,9 +4,6 @@ import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
 import 'package:todo_fb/notes/services/calculator.dart';
 
-import '../../domain/models/note.dart';
-
-
 class AddNote extends StatefulWidget {
   const AddNote({Key? key}) : super(key: key);
 

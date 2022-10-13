@@ -32,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar:  AppBar(
-        title: Text('e-Daily'),
+        title: Text('Notes'),
         backgroundColor:buttonColor,
       ),
       body: screens[currentIndex],

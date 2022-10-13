@@ -1,14 +1,14 @@
-import 'dart:typed_data';
+import 'dart:io' as i;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
-import 'package:todo_fb/notes/domain/models/image_list.dart';
 import '../../../authentication/service/auth_service.dart';
 import '../../../constants/app_constants.dart';
-import '../../database/provider/image_provider.dart';
 import '../../widgets/delete_notes.dart';
 import '../../widgets/sign_out.dart';
 
@@ -25,16 +25,37 @@ class _SettingsState extends State<Settings> {
   List<String> langs=['English','Turkish'];
   String? dropdownvalue='English';
   final _globalKey=GlobalKey<FormState>();
-  SharedPreferences? sharedPreferences;
-  Uint8List? imageBytes;
+  String? _photoUrl='https://picsum.photos/250?image=9';
+  String? uploadedImageUrl;
+  User? user;
 
+  XFile? _images;
+  final picker=ImagePicker();
 
-  @override
-  void initState() {
-    Provider.of<UploadImageProvider>(context, listen: false).base64ToImage();
-    super.initState();
+  Future getImage() async{
+    final pickedFile=await ImagePicker().pickImage(source: ImageSource.gallery);
+
+  setState(() {
+    if(pickedFile != null){
+      _images=XFile(pickedFile.path);
+    }else{
+      print('No image selected.');
+    }
+  });
+        if(pickedFile!=null){
+          _photoUrl = await uploadImagetoStorage(_images!);
+        }
   }
 
+  Future<String> uploadImagetoStorage(XFile imageFile)async{
+    String path='${FirebaseAuth.instance.currentUser!.email}';
+
+  TaskSnapshot uploadTask =await FirebaseStorage.instance.ref().child('photos').child(path).putFile(i.File(_images!.path));
+
+  uploadedImageUrl=await uploadTask.ref.getDownloadURL();
+  return uploadedImageUrl!;
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,33 +69,14 @@ class _SettingsState extends State<Settings> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    Provider.of<UploadImageProvider>(context, listen: false).pickImage(context);
-                    Uint8List? imageBytes=Provider.of<UploadImageProvider>(context, listen: false).base64ToImage();
-                    ImagesList images=ImagesList(
-                        imageBytes: imageBytes!,
-                        email: FirebaseAuth.instance.currentUser!.email!);
-                         if(images != null)
-                        {
-                           Provider.of<UploadImageProvider>(context,listen: false).addImage(images);
-                        }
-
+                    getImage();
                   },
-                  child: Consumer<UploadImageProvider>(
-                      builder: (context,state,child)
-                      =>state.profileImage !=null
-                          ? CircleAvatar(
-                        backgroundColor: state.profileImage ==ConnectionState.waiting
-                            ? Colors.red
-                            : Colors.blue,
-                        backgroundImage: MemoryImage(state.profileImage!),
+                  child: CircleAvatar(
                         radius: 100,
-                      )
-                          : CircleAvatar(
-                            child: Text('Upload Image'),
-                            backgroundColor:Colors.grey.shade600,
-                            radius:100,
-                      )
-                  ),
+                         backgroundImage: _images == null
+                             ? NetworkImage('https://picsum.photos/250?image=9')
+                             : Image.file(i.File(_images!.path)) as ImageProvider
+                  )
                 ),
                 Padding(
                   padding: EdgeInsets.all(20),

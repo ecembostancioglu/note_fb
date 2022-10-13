@@ -10,7 +10,8 @@ class UserDatabase{
         .doc(auth.email)
         .set({'email':auth.email,
       'userUid':auth.id,
-      'userName':auth.displayName});
+      'userName':auth.displayName,
+      'photoUrl':auth.photoUrl});
 
   }
 }
