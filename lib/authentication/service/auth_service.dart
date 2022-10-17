@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_fb/constants/app_constants.dart';
+import 'package:todo_fb/notes/domain/models/auth_user.dart';
 import '../../notes/database/repository/user_database.dart';
 
 
@@ -9,9 +10,10 @@ class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   UserDatabase userDatabase=UserDatabase();
 
+  Future<User?> createUserWithEmailandPassword(String name,String email,String password,String? url)async{
 
+    AuthUser authUser=AuthUser(email: email, userName: name, photoUrl: url!);
 
-  Future<User?> createUserWithEmailandPassword(String name,String email,String password)async{
     final user=await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password);
@@ -19,10 +21,9 @@ class AuthService {
         .collection(AppConstants.referencePath)
         .doc(user.user!.email)
         .set({
-      'email':user.user!.email,
-    'userUid':user.user!.uid,
-    'userName':user.user!.displayName,
-    'photoUrl':user.user!.photoURL});
+      'email':authUser.email,
+    'userName':authUser.userName,
+    'photoUrl':authUser.photoUrl});
     User? userr=user.user;
     userr!.updateDisplayName(user.user!.displayName);
     return user.user;

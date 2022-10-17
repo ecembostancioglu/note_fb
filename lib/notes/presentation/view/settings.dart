@@ -1,5 +1,4 @@
 import 'dart:io' as i;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
+import 'package:todo_fb/notes/domain/models/auth_user.dart';
 import '../../../authentication/service/auth_service.dart';
 import '../../../constants/app_constants.dart';
 import '../../widgets/delete_notes.dart';
@@ -27,7 +27,7 @@ class _SettingsState extends State<Settings> {
   final _globalKey=GlobalKey<FormState>();
   String? _photoUrl='https://picsum.photos/250?image=9';
   String? uploadedImageUrl;
-  User? user;
+
 
   XFile? _images;
   final picker=ImagePicker();
@@ -53,12 +53,28 @@ class _SettingsState extends State<Settings> {
   TaskSnapshot uploadTask =await FirebaseStorage.instance.ref().child('photos').child(path).putFile(i.File(_images!.path));
 
   uploadedImageUrl=await uploadTask.ref.getDownloadURL();
+  print('=================================> $uploadedImageUrl}');
+
+    AuthUser user=AuthUser(
+        email: signInEmailController.text,
+        userName: userNameController.text,
+        photoUrl: uploadedImageUrl!);
+
   return uploadedImageUrl!;
 
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
+
+    AuthUser user=AuthUser(
+        email: signInEmailController.text,
+        userName: userNameController.text,
+        photoUrl: uploadedImageUrl.toString());
+
     return Scaffold(
         resizeToAvoidBottomInset:false,
         body:SafeArea(
@@ -71,11 +87,11 @@ class _SettingsState extends State<Settings> {
                   onTap: (){
                     getImage();
                   },
-                  child: CircleAvatar(
-                        radius: 100,
-                         backgroundImage: _images == null
-                             ? NetworkImage('https://picsum.photos/250?image=9')
-                             : Image.file(i.File(_images!.path)) as ImageProvider
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: _images == null
+                        ? Icon(Icons.account_circle,size: 100)
+                        : Image.network('${user.photoUrl}',height: 100,width: 100)
                   )
                 ),
                 Padding(

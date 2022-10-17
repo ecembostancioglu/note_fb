@@ -29,7 +29,9 @@ class _SignUpButtonState extends State<SignUpButton> {
             .createUserWithEmailandPassword(
             userNameController.text,
             registeremailController.text,
-            registerPasswordController.text).then((_){
+            registerPasswordController.text,
+            ''
+            ).then((_){
           Navigator.pushReplacement(context,
               MaterialPageRoute(
                   builder: (context)=>VerifyEmailPage()));
