@@ -26,6 +26,7 @@ class AuthService {
     'photoUrl':authUser.photoUrl});
     User? userr=user.user;
     userr!.updateDisplayName(user.user!.displayName);
+    userr.updatePhotoURL(user.user!.photoURL);
     return user.user;
   }
 

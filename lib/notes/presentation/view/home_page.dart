@@ -82,8 +82,7 @@ class _HomePageState extends State<HomePage> {
                                        title:Text(titleCtr.text),
                                        elevation: 10,
                                        actions: [
-                                         Text(descCtr.text),
-
+                                         Text(titleCtr.text),
                                        ],
                                        shape: const RoundedRectangleBorder(borderRadius:borderRad),
                                      );

@@ -1,78 +1,49 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_fb/notes/domain/models/image_list.dart';
+import 'dart:io' as i;
 
-class UploadImageProvider with ChangeNotifier{
-  String imageKey = 'IMG_KEY';
-  List<ImagesList> images=[];
-  SharedPreferences? sharedPreferences;
-  Uint8List? imageBytes;
-  Uint8List? profileImage;
+class UploadImageProvider{
 
-  void addImage(ImagesList image) {
-    images.add(image);
-    saveDataToLocalStorage();
-    notifyListeners();
-  }
+  String? _photoUrl='https://picsum.photos/250?image=9';
+  String? uploadedImageUrl;
+  FirebaseStorage _storage=FirebaseStorage.instance;
 
-
-  void initSharedPreferences() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    notifyListeners();
-  }
-
-  void saveDataToLocalStorage() {
-    List<String>? spList = images.map((item) => json.encode(item.toMap())).toList();
-    sharedPreferences?.setStringList('list',spList);
-  }
-
-
-  Future pickImage(BuildContext context) async {
-
-    XFile? image = await ImagePicker().pickImage(source:ImageSource.gallery);
-
-    if (image != null) {
-      imageBytes = await image.readAsBytes();
-      imageToBase64(imageBytes!);
-      notifyListeners();
-      base64ToImage();
-      notifyListeners();
-    }
-  }
-
-  void imageToBase64(Uint8List imageBytes){
-    sharedPreferences!.setString(imageKey,base64.encode(imageBytes));
-    notifyListeners();
-  }
-
-  Uint8List? base64ToImage(){
-    var data = sharedPreferences!.getString(imageKey);
-    data == null
-        ? null
-        : profileImage = base64.decode(data);
-    return profileImage;
-  }
-
-}
-
-
-class ImageUpload{
-
-  File? _image;
-  final picker=ImagePicker();
+  XFile? _images;
+  final ImagePicker picker=ImagePicker();
 
   Future getImage() async{
-    final pickedFile=await picker.getImage(source: ImageSource.camera);
+    final pickedFile=await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if(pickedFile != null){
-      _image=File(pickedFile.path);
-    }else{
-      print('No image selected.');
+      if(pickedFile != null){
+        _images=XFile(pickedFile.path);
+      }else{
+        print('No image selected.');
+      }
+
+    if(pickedFile!=null){
+      _photoUrl = await uploadImagetoStorage(_images!);
     }
   }
 
+  Future<String> uploadImagetoStorage(XFile imageFile)async{
+    String path='${FirebaseAuth.instance.currentUser!.email}';
+
+    TaskSnapshot uploadTask =await _storage.ref()
+        .child('photos')
+        .child(path)
+        .putFile(i.File(imageFile.path));
+
+    uploadedImageUrl=await uploadTask.ref.getDownloadURL();
+    print('===> $uploadedImageUrl}');
+
+    return uploadedImageUrl!;
+
+  }
+
+
+
+
+
 }
+

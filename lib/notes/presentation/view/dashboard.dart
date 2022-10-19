@@ -22,12 +22,6 @@ class _DashboardState extends State<Dashboard> {
   ];
 
   @override
-  void initState() {
-    Provider.of<UploadImageProvider>(context,listen:false).initSharedPreferences();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
