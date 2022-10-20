@@ -22,7 +22,7 @@ class OnboardContent extends StatelessWidget {
         Center(
           child: Image.asset(image,
             alignment: Alignment.center,
-            height:250.h,
+            height:240.h,
           ),
         ),
         const Spacer(),
@@ -35,7 +35,7 @@ class OnboardContent extends StatelessWidget {
         Text(description,
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: 18.sp),
+              fontSize: 16.sp),
         ),
         const Spacer(),
       ],
