@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -35,6 +36,7 @@ class _NoteViewState extends State<NoteView> {
          _isDeleting=false;
        });
      }
+
    }
 
 
@@ -47,6 +49,13 @@ class _NoteViewState extends State<NoteView> {
         SlidableAction(
           onPressed:(context){
             deleteNote();
+            Flushbar(
+              icon:const Icon(Icons.delete_forever,color: Colors.white),
+              flushbarStyle:FlushbarStyle.FLOATING,
+              backgroundColor: Colors.black87,
+              message: AppConstants.flushBar,
+              duration:const Duration(seconds:4),
+            ).show(context);
             },
           borderRadius:const BorderRadius.all(Radius.circular(20)),
           backgroundColor:errorBackground,

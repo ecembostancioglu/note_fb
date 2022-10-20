@@ -11,6 +11,7 @@ class AppConstants{
   static const double borderRadius=20.0;
   static const String noData='No search query found!';
   static const String created='created';
+  static const String flushBar='The note was deleted.';
 
 
 }
