@@ -1,38 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo_fb/onboarding_view/widgets/onboard_content.dart';
+
+import '../constants/app_constants.dart';
 
 class OnBoardView extends StatelessWidget {
   const OnBoardView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            const Spacer(),
-            Center(
-              child: Image.asset('assets/images/image1.png',
-                  alignment: Alignment.center,
-                  height:250.h,
-              ),
-            ),
-            const Spacer(),
-            Text('Take Notes',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 24.sp),
-            ),
-            Text('Take notes and capture ideas \nat a moment notice...',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 18.sp,),
-            ),
-            const Spacer(),
-          ],
-        ),
+        child: OnboardContent(
+          image: 'assets/images/image1.png',
+          title: AppConstants.title1,
+          description: AppConstants.description1),
       ),
     );
+
   }
 }
+

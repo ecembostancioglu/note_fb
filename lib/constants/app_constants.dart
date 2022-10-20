@@ -12,6 +12,8 @@ class AppConstants{
   static const String noData='No search query found!';
   static const String created='created';
   static const String flushBar='The note was deleted.';
+  static const String title1='Take Notes';
+  static const String description1='Take notes and capture ideas \nat a moment notice...';
 
 
 }
