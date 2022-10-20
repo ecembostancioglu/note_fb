@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/presentation/view/auth_page.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
+import 'package:todo_fb/onboarding_view/onboard_view.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -18,32 +19,34 @@ class MyApp extends StatelessWidget {
       builder: (context,widget)
       =>
           MultiProvider(
-        providers: [
+            providers: [
             Provider<AuthService>(
             create:(context)=>AuthService(),),
          // ChangeNotifierProvider<UploadImageProvider>(
          //     create:(context)=>UploadImageProvider()),
         ],
-         child:MaterialApp(
+          child:MaterialApp(
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          home: FutureBuilder(
-              future: _initialization,
-              builder: (context,snapshot){
-                if(snapshot.hasError){
-                  return const Center(
-                    child: Text('Something went wrong'),);
-                }else if(snapshot.hasData){
-                  return AuthPage();
-                }
-                return const Center(
-                    child:CircularProgressIndicator());
-              }
-          ),
+           home: OnBoardView()
         ),
           )
     );
   }
 }
+
+//FutureBuilder(
+//               future: _initialization,
+//               builder: (context,snapshot){
+//                 if(snapshot.hasError){
+//                   return const Center(
+//                     child: Text('Something went wrong'),);
+//                 }else if(snapshot.hasData){
+//                   return AuthPage();
+//                 }
+//                 return const Center(
+//                     child:CircularProgressIndicator());
+//               }
+//           ),
