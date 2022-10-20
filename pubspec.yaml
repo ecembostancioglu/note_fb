@@ -48,6 +48,7 @@ dependencies:
   image_picker: ^0.8.5+3
   intl: ^0.17.0
   firebase_storage: ^10.3.11
+  another_flushbar: ^1.12.29
 
 
 
