@@ -17,7 +17,7 @@ class AppConstants{
   static const String title3='Beautiful. Easy.';
   static const String description1='Take notes and capture ideas \nat a moment notice...';
   static const String description2='Search and find everything...';
-  static const String description3='If you join us, Swipe Up...';
+  static const String description3='If you join us, click the button...';
 
 
 }

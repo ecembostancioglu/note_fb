@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_fb/onboarding_view/presentation/view/login.dart';
 import 'package:todo_fb/onboarding_view/widgets/dot_indicator.dart';
 import 'package:todo_fb/onboarding_view/widgets/onboard_content.dart';
 import 'models/onboard.dart';
@@ -27,9 +29,35 @@ class _OnBoardViewState extends State<OnBoardView> {
     super.dispose();
   }
 
+  _storeOnboardInfo()async{
+    int _isViewed=0;
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    await prefs.setInt('onBoard', _isViewed);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          TextButton(
+              onPressed:(){
+                _storeOnboardInfo();
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(
+                    builder: (context)=>LoginPage()));
+              },
+              child:Text('Skip',
+              style: TextStyle(
+                color: _pageIndex % 2 == 0
+                    ? Colors.black
+                    : Colors.blue,
+              ),))
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -39,7 +67,7 @@ class _OnBoardViewState extends State<OnBoardView> {
                 child: PageView.builder(
                   itemCount:contents.length,
                   controller: _pageController,
-                  onPageChanged: (index){
+                  onPageChanged: (int index){
                     setState(() {
                       _pageIndex=index;
                     });
@@ -51,36 +79,43 @@ class _OnBoardViewState extends State<OnBoardView> {
                           description:contents[index].description),
                 ),
               ),
-              Row(
-                children: [
-                  ...List.generate(contents.length,
-                          (index) => Padding(
-                            padding: const EdgeInsets.only(right: 4),
-                            child: DotIndicator(isActive: index==_pageIndex),
+               Row(
+                  children: [
+                    ...List.generate(
+                        contents.length,
+                            (index) => Padding(
+                              padding: const EdgeInsets.only(right: 4),
+                              child: DotIndicator(isActive: index==_pageIndex),
+                            )),
+                    const Spacer(),
+                    SizedBox(
+                      height: 50.h,
+                      width: 50.w,
+                      child: Padding(
+                        padding:EdgeInsets.only(bottom:5.h),
+                        child: ElevatedButton(
+                          onPressed: (){
+                            if(_pageIndex==contents.length-1){
+                              Navigator.pushReplacement(
+                                  context, MaterialPageRoute(
+                                  builder: (context)=>LoginPage()));
+                            }
+                            _pageController.nextPage(
+                                duration:const Duration(milliseconds:400),
+                                curve: Curves.ease);
 
-                          )),
-                  const Spacer(),
-                  SizedBox(
-                    height: 50.h,
-                    width: 50.w,
-                    child: Padding(
-                      padding:EdgeInsets.only(bottom:5.h),
-                      child: ElevatedButton(
-                        onPressed: (){
-                          _pageController.nextPage(
-                              duration:const Duration(milliseconds:400),
-                              curve: Curves.ease);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape:const CircleBorder(),
-                            elevation: 10,
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape:const CircleBorder(),
+                              elevation: 10,
+                          ),
+                          child:const Icon(Icons.arrow_forward),
                         ),
-                        child:const Icon(Icons.arrow_forward),
                       ),
                     ),
-                  ),
-                ],
-              )
+                  ],
+                ),
+
             ],
           ),
         ),
