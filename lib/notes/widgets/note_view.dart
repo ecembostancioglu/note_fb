@@ -8,7 +8,7 @@ import 'package:todo_fb/notes/database/repository/note_database.dart';
 
 
 class NoteView extends StatefulWidget {
-    NoteView({
+   const NoteView({
      required this.data,
      Key? key,
   }) : super(key: key);

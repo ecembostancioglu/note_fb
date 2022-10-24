@@ -1,3 +1,11 @@
 {
-  "welcome": "hoşgeldin"
+  "authentication": {
+    "email": "Email adresi",
+    "password": "Şifre",
+    "loginwithGoogle": "Google ile Giriş Yap",
+    "login": "Giriş Yap",
+    "signupButton": "Hesabın yok mu? ÜYE OL",
+    "name": "İsim",
+    "confirm_password": "Şifreyi Yinele"
+  }
 }

@@ -60,14 +60,14 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
+    return Form(
         key: _formKey,
         child: Padding(
           padding: EdgeInsets.all(20),
           child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset('assets/images/image4.png',height: 180.h),
               Text('Sign In'),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -161,7 +161,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
               )
             ],
           ),),
-      ),
-    );
+      );
+
   }
 }

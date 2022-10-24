@@ -1,3 +1,11 @@
 {
-  "welcome": "welcome"
+  "authentication": {
+    "email": "Email",
+    "password": "Password",
+    "loginwithGoogle": "Login with Google",
+    "login": "Login",
+    "signupButton": "Don't have an account? SIGN UP",
+    "name": "Name",
+    "confirm_password": "Confirm Password"
+  }
 }

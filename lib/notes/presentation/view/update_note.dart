@@ -7,9 +7,9 @@ import '../../services/calculator.dart';
 
 
 class UpdateNote extends StatefulWidget {
-   UpdateNote({Key? key,required this.noteId}) : super(key: key);
+  const UpdateNote({Key? key,required this.noteId}) : super(key: key);
 
-   var noteId;
+  final String noteId;
 
   @override
   State<UpdateNote> createState() => _UpdateNoteState();
