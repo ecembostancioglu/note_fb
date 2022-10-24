@@ -60,108 +60,110 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
   }
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child:Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/image4.png',height: 180.h),
-              Text('Sign In'),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  validator:(email) =>
-                     email != null && !EmailValidator.validate(email)
-                      ? 'enter a valid email'
-                      : null,
-                  controller: signInEmailController,
-                  keyboardType: TextInputType.emailAddress,
-                  cursorColor: Colors.white,
-                  textInputAction:TextInputAction.next,
-                  decoration:const InputDecoration(
-                    border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.mail),
-                      labelText: 'Email'
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  validator:(value){
-                  if(value != null && value.length < 7){
-                    return 'Enter min. 7 characters';
-                  }else{
-                    return null;
-                  }
-                },
-                  controller: signInPasswordController,
-                  cursorColor: Colors.white,
-                  obscureText: _signInObscureText,
-                  textInputAction:TextInputAction.done,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
+    return Scaffold(
+      body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child:Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/image4.png',height: 180.h),
+                Text('Sign In'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    validator:(email) =>
+                       email != null && !EmailValidator.validate(email)
+                        ? 'enter a valid email'
+                        : null,
+                    controller: signInEmailController,
+                    keyboardType: TextInputType.emailAddress,
+                    cursorColor: Colors.white,
+                    textInputAction:TextInputAction.next,
+                    decoration:const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      suffixIcon: IconButton(
-                          onPressed: (){
-                            setState(() {
-                              _signInObscureText=! _signInObscureText;
+                        prefixIcon: Icon(Icons.mail),
+                        labelText: 'Email'
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    validator:(value){
+                    if(value != null && value.length < 7){
+                      return 'Enter min. 7 characters';
+                    }else{
+                      return null;
+                    }
+                  },
+                    controller: signInPasswordController,
+                    cursorColor: Colors.white,
+                    obscureText: _signInObscureText,
+                    textInputAction:TextInputAction.done,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.lock),
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                        suffixIcon: IconButton(
+                            onPressed: (){
+                              setState(() {
+                                _signInObscureText=! _signInObscureText;
 
-                            });
-                          },
-                          icon:Icon( _signInObscureText
-                              ? Icons.visibility
-                              : Icons.visibility_off))
+                              });
+                            },
+                            icon:Icon( _signInObscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off))
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20.h),
-              ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize:const Size.fromHeight(50),
-                      elevation: 6,
-                      primary: Colors.orange
+                SizedBox(height: 20.h),
+                ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize:const Size.fromHeight(50),
+                        elevation: 6,
+                        primary: Colors.orange
+                    ),
+                    icon:const Icon(Icons.lock_open,size: 30),
+                    onPressed:signIn,
+                    label:const Text('Sign In',
+                        style: TextStyle(fontSize: 24))),
+                SizedBox(height: 20.h),
+                Text('OR',
+                    style: TextStyle(fontSize: 20)),
+                SizedBox(height: 20.h),
+                ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize:const Size.fromHeight(50),
+                        elevation: 6,
+                        primary: Colors.lightBlueAccent),
+                    icon:Image.asset('assets/images/google.png',
+                        height: 30,
+                        fit: BoxFit.cover),
+                    onPressed:signInwithGoogle,
+                    label:Text('Sign In with Google',
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black54))),
+                SizedBox(height: 20.h),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BuildRegisterForm()));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Don\'t have an account?'),
+                      Text('SIGN UP',style: TextStyle(fontWeight: FontWeight.bold),),
+                    ],
                   ),
-                  icon:const Icon(Icons.lock_open,size: 30),
-                  onPressed:signIn,
-                  label:const Text('Sign In',
-                      style: TextStyle(fontSize: 24))),
-              SizedBox(height: 20.h),
-              Text('OR',
-                  style: TextStyle(fontSize: 20)),
-              SizedBox(height: 20.h),
-              ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize:const Size.fromHeight(50),
-                      elevation: 6,
-                      primary: Colors.lightBlueAccent),
-                  icon:Image.asset('assets/images/google.png',
-                      height: 30,
-                      fit: BoxFit.cover),
-                  onPressed:signInwithGoogle,
-                  label:Text('Sign In with Google',
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.black54))),
-              SizedBox(height: 20.h),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>BuildRegisterForm()));
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Don\'t have an account?'),
-                    Text('SIGN UP',style: TextStyle(fontWeight: FontWeight.bold),),
-                  ],
-                ),
-              )
-            ],
-          ),),
-      );
+                )
+              ],
+            ),),
+        ),
+    );
 
   }
 }

@@ -1,6 +1,6 @@
 {
   "authentication": {
-    "email": "Email adresi",
+    "email": "E-posta",
     "password": "Şifre",
     "loginwithGoogle": "Google ile Giriş Yap",
     "login": "Giriş Yap",

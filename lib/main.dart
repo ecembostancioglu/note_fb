@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_fb/app.dart';
 import 'package:todo_fb/constants/app_constants.dart';
-//import 'localization/codegen_loader.g.dart';
+import 'translations/codegen_loader.g.dart';
 
 int? isViewed;
 
@@ -19,7 +19,7 @@ Future<void> main() async{
           child:MyApp(),
           saveLocale: true,
           fallbackLocale: AppConstants.EN_LOCALE,
-       //   assetLoader: CodegenLoader(),
+          assetLoader: CodegenLoader(),
           supportedLocales: const[
             AppConstants.EN_LOCALE,
             AppConstants.TR_LOCALE ],

@@ -1,6 +1,6 @@
 {
   "authentication": {
-    "email": "Email",
+    "email": "E-mail",
     "password": "Password",
     "loginwithGoogle": "Login with Google",
     "login": "Login",
