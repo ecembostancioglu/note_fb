@@ -11,10 +11,10 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final _auth=Provider.of<AuthService>(context,listen: false);
+    final auth=Provider.of<AuthService>(context,listen: false);
 
     return StreamBuilder<User?>(
-        stream:_auth.authStatus(),
+        stream:auth.authStatus(),
         builder:(context,snapshot){
        if(snapshot.hasData){
          return Dashboard();

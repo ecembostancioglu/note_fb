@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
+import 'package:todo_fb/notes/domain/models/auth_user.dart';
 import '../../widgets/note_view.dart';
 
 
@@ -19,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   AuthService authService=AuthService();
   String query='';
   NoteDatabase noteDatabase=NoteDatabase();
+  AuthUser? authUser;
 
 
   @override
@@ -34,7 +37,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Padding(
                 padding:const EdgeInsets.all(20),
-                child: Text('Welcome ${userNameController.text}',
+                child: Text('Welcome ${authUser?.userName ?? ''}',
                     style: TextStyle(fontSize: 21.sp)),),
               Padding(
                 padding:const EdgeInsets.all(12.0),
@@ -55,7 +58,11 @@ class _HomePageState extends State<HomePage> {
               ),
               Flexible(
                   child:StreamBuilder<QuerySnapshot?>(
-                   stream:noteDatabase.readNotes(),
+                   stream:firebaseFirestore
+                       .collection('Users')
+                       .doc(FirebaseAuth.instance.currentUser!.email)
+                       .collection('Notes')
+                       .orderBy('created').snapshots(),
                       builder:(context,snapshot) {
                      if (!snapshot.hasData) {
                      return const Center(

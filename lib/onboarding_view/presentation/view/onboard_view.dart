@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_fb/onboarding_view/presentation/view/login.dart';
 import 'package:todo_fb/onboarding_view/widgets/dot_indicator.dart';
 import 'package:todo_fb/onboarding_view/widgets/onboard_content.dart';
-import 'models/onboard.dart';
+
+import '../../models/onboard.dart';
 
 class OnBoardView extends StatefulWidget {
   const OnBoardView({Key? key}) : super(key: key);

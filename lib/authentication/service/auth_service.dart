@@ -9,10 +9,10 @@ import '../../notes/database/repository/user_database.dart';
 class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   UserDatabase userDatabase=UserDatabase();
+  AuthUser? authUser;
 
   Future<User?> createUserWithEmailandPassword(String name,String email,String password,String? url)async{
 
-    AuthUser authUser=AuthUser(email: email, userName: name, photoUrl: url!);
 
     final user=await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -21,11 +21,11 @@ class AuthService {
         .collection(AppConstants.referencePath)
         .doc(user.user!.email)
         .set({
-      'email':authUser.email,
-    'userName':authUser.userName,
-    'photoUrl':authUser.photoUrl});
+      'email':authUser?.email,
+    'userName':authUser?.userName,
+    'photoUrl':authUser?.photoUrl});
     User? userr=user.user;
-    userr!.updateDisplayName(user.user!.displayName);
+    userr!.updateDisplayName(authUser?.userName);
     userr.updatePhotoURL(user.user!.photoURL);
     return user.user;
   }
@@ -77,7 +77,6 @@ class AuthService {
     return FirebaseFirestore.instance
         .collection(AppConstants.referencePath)
         .doc(FirebaseAuth.instance.currentUser!.email).update(data);
-
   }
 
   Future<void> signOut() async {

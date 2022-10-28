@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ import 'package:todo_fb/notes/domain/models/auth_user.dart';
 import '../../../authentication/service/auth_service.dart';
 import '../../../constants/app_constants.dart';
 import '../../database/provider/image_provider.dart';
+import '../../widgets/change_name_dialog.dart';
 import '../../widgets/delete_notes.dart';
 import '../../widgets/sign_out.dart';
 
@@ -67,37 +69,28 @@ class _SettingsState extends State<Settings> {
                     Padding(
                       padding: EdgeInsets.all(20),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Change your name'),
-                          Expanded(
-                            child: TextFormField(
-                              key: _globalKey,
-                              controller: userNameController,
-                              onChanged: (displayName){
+                          Text(
+                              authUser?.userName ?? '',
+                              style:TextStyle(fontSize: 24.sp)),
+                             IconButton(
+                              onPressed:(){
                                 setState(() {
-                                  displayName=userNameController.text;
+                                  changeName(context);
                                 });
                               },
-                              decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    onPressed:(){
-                                      Provider.of<AuthService>(context,listen: false).updateName();
-                                    },
-                                    icon:const Icon(Icons.change_circle_outlined,
-                                        color: buttonColor),
-                                  ),
-                                  border:const OutlineInputBorder(
-                                      borderRadius:borderRad)
-                              ),
+                              icon:const Icon(
+                                  Icons.mode_edit_outline_outlined,
+                                  color:buttonColor),
                             ),
-                          ),
+
                         ],
                       ),
                     ),
                     DeleteAllNotes(noteDatabase: noteDatabase, isDeleted: false),
                     Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding:const EdgeInsets.all(20.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

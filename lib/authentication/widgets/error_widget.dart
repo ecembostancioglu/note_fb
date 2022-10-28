@@ -13,8 +13,8 @@ void displayErrorToast(BuildContext context,String description)  {
     animationType:AnimationType.fromLeft,
     position:MotionToastPosition.bottom,
     barrierColor:Colors.black.withOpacity(0.3),
-    width: 350.sw,
-    height:150.sh,
+    width: 350.w,
+    height:80.h,
     toastDuration:const Duration(seconds: 3),
   ).show(context);
 }
