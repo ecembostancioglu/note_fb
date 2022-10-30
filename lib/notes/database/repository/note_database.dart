@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_fb/constants/app_constants.dart';
 
-class NoteDatabase {
+class NoteDatabase{
 
   static String? id;
 

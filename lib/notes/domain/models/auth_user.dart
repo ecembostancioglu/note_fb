@@ -12,6 +12,8 @@ class AuthUser{
       : email = data['email'],
         userName = data['userName'],
         photoUrl = data['photoUrl'];
+
+
   Map<String, dynamic> toJson() {
     return {
       'email': email,

@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
 import 'package:todo_fb/notes/database/repository/user_database.dart';
 import 'package:todo_fb/notes/domain/models/auth_user.dart';
@@ -26,7 +24,6 @@ class _SettingsState extends State<Settings> {
   AuthService authService=AuthService();
   List<String> langs=['English','Turkish'];
   String? dropdownvalue='English';
-  final _globalKey=GlobalKey<FormState>();
   UploadImageProvider uploadImageProvider=UploadImageProvider();
   XFile? imagem;
   UserDatabase userDatabase=UserDatabase();
@@ -45,29 +42,25 @@ class _SettingsState extends State<Settings> {
                     GestureDetector(
                         onTap: (){
                           setState(() {
-                            if(imagem == null){
                               uploadImageProvider.getImage();
-                            }
-                            else{
+
                               uploadImageProvider.uploadImagetoStorage(imagem!);
                               print('===> ${imagem!.path}');
-                            }
-                          });
 
+                          });
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            radius: 100,
-                            backgroundImage: imagem==null
-                            ? NetworkImage('https://picsum.photos/250?image=9')
-                          //  : File(imagem!.path) as ImageProvider,
-                            : Image.file(File(imagem!.path)) as ImageProvider,
-                          ),
+                          child: imagem==null
+                            ? Image(
+                            height: 150.h,
+                            width: 150.h,
+                              image: NetworkImage('https://picsum.photos/250?image=9'))
+                              : Image.file(File(imagem!.path)),
                         )
                     ),
                     Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -84,7 +77,6 @@ class _SettingsState extends State<Settings> {
                                   Icons.mode_edit_outline_outlined,
                                   color:buttonColor),
                             ),
-
                         ],
                       ),
                     ),
@@ -94,7 +86,7 @@ class _SettingsState extends State<Settings> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Change Language'),
+                          const Text('Change Language'),
                           DropdownButton<String>(
                               value: dropdownvalue,
                               borderRadius: borderRad,
@@ -111,12 +103,9 @@ class _SettingsState extends State<Settings> {
                         ],
                       ),
                     ),
-                    SignOutWidget()
+                    const SignOutWidget()
                   ],
                 ),
-
-
-
           ),
         )
     );

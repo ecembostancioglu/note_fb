@@ -9,7 +9,7 @@ class AppConstants{
   static const String collectionPath='Notes';
   static const String referencePath='Users';
   static const double borderRadius=20.0;
-  static const String noData='No search query found!';
+  static const String noData='Something is missing here..';
   static const String created='created';
   static const String flushBar='The note was deleted.';
   static const String title1='Take Notes';
