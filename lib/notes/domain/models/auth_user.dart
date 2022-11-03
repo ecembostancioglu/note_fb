@@ -1,15 +1,18 @@
 class AuthUser{
-  final String email;
-  final String userName;
-  final String photoUrl;
+   String email;
+   String password;
+   String userName;
+   String photoUrl;
 
   AuthUser({
     required this.email,
+    required this.password,
     required this.userName,
     required this.photoUrl});
 
   AuthUser.fromData(Map<String, dynamic> data)
       : email = data['email'],
+        password = data['password'],
         userName = data['userName'],
         photoUrl = data['photoUrl'];
 
@@ -17,6 +20,7 @@ class AuthUser{
   Map<String, dynamic> toJson() {
     return {
       'email': email,
+      'password': password,
       'userName': userName,
       'photoUrl': photoUrl,
     };

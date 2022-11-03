@@ -1,4 +1,7 @@
+import 'dart:io' as i;
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,7 +10,6 @@ import 'package:todo_fb/notes/database/repository/user_database.dart';
 import 'package:todo_fb/notes/domain/models/auth_user.dart';
 import '../../../authentication/service/auth_service.dart';
 import '../../../constants/app_constants.dart';
-import '../../database/provider/image_provider.dart';
 import '../../widgets/change_name_dialog.dart';
 import '../../widgets/delete_notes.dart';
 import '../../widgets/sign_out.dart';
@@ -24,10 +26,10 @@ class _SettingsState extends State<Settings> {
   AuthService authService=AuthService();
   List<String> langs=['English','Turkish'];
   String? dropdownvalue='English';
-  UploadImageProvider uploadImageProvider=UploadImageProvider();
-  XFile? imagem;
   UserDatabase userDatabase=UserDatabase();
   AuthUser? authUser;
+  String imageUrl='';
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,23 +42,36 @@ class _SettingsState extends State<Settings> {
             child: Column(
                   children: [
                     GestureDetector(
-                        onTap: (){
-                          setState(() {
-                              uploadImageProvider.getImage();
+                        onTap: ()async{
+                         ImagePicker imagePicker=ImagePicker();
+                         XFile? file=await imagePicker.pickImage(source: ImageSource.gallery);
+                         print('${file?.path}');
 
-                              uploadImageProvider.uploadImagetoStorage(imagem!);
-                              print('===> ${imagem!.path}');
+                         if(file==null) return;
 
-                          });
+                         String uniqueFileName=FirebaseAuth.instance.currentUser!.email.toString();
+
+                         Reference reference=FirebaseStorage.instance.ref();
+                         Reference refImages=reference.child('photos');
+
+                         Reference refImagestoUpload=refImages.child(uniqueFileName);
+
+                         try{
+                           await refImagestoUpload.putFile(File(file.path));
+                           imageUrl=await refImagestoUpload.getDownloadURL();
+                           authUser?.photoUrl=imageUrl;
+                         }catch(error){
+                           print(error);
+                         }
+
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: imagem==null
-                            ? Image(
-                            height: 150.h,
-                            width: 150.h,
-                              image: NetworkImage('https://picsum.photos/250?image=9'))
-                              : Image.file(File(imagem!.path)),
+                          child: CircleAvatar(
+                            radius: 90.r,
+                              backgroundColor: avatarBgColor,
+                              foregroundColor: avatarBgColor,
+                              child: Image.asset('assets/images/image.png'))
                         )
                     ),
                     Padding(

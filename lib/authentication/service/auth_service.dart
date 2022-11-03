@@ -24,9 +24,6 @@ class AuthService {
       'email':authUser?.email,
     'userName':authUser?.userName,
     'photoUrl':authUser?.photoUrl});
-  //  User? userr=user.user;
-   // userr!.updateDisplayName(authUser?.userName);
-   // userr.updatePhotoURL(user.user!.photoURL);
     return user.user;
   }
 

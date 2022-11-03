@@ -53,4 +53,5 @@ const Color errorBackground= Color(0xFFFE4A49);
 const Color iconForeground=Color(0xFFFFFFFF);
 const Color buttonColor=Color(0xff645CAA);
 const Color navBarColor=Color(0xffEBC7E8);
+const Color avatarBgColor=Color(0xffc2c2c2);
 const BorderRadius borderRad= BorderRadius.all(Radius.circular(20));
