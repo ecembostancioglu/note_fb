@@ -24,7 +24,6 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar:  AppBar(
-        title: Text('Notes'),
         backgroundColor:buttonColor,
       ),
       body: screens[currentIndex],

@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Padding(
                 padding:const EdgeInsets.all(20),
-                child: Text('Welcome ${authUser?.userName ?? ''}',
+                child: Text('Notes',
                     style: TextStyle(fontSize: 21.sp)),),
               Padding(
                 padding:const EdgeInsets.all(12.0),

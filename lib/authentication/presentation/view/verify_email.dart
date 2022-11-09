@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/notes/presentation/view/dashboard.dart';
+
+import '../../../constants/app_constants.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({Key? key}) : super(key: key);
@@ -19,6 +22,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   bool isEmailVerified=false;
   bool canResendEmail=false;
   Timer? timer;
+  String email=FirebaseAuth.instance.currentUser!.email.toString();
+
+
   @override
   void initState() {
     isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
@@ -67,26 +73,47 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
    => isEmailVerified
         ? Dashboard()
         : Scaffold(
-          body: Center(
-           child: Column(
-             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-            Text('A verification email has been sent to your email'),
-            ElevatedButton.icon(
-                icon: Icon(Icons.mail),
-                onPressed:canResendEmail
-                    ? sendVerificationEmail
-                    : null,
-                label: Text('Resent Email')),
-            ElevatedButton(
-                onPressed:(){
-                  Provider.of<AuthService>(context,listen: false).signOut();
-                  Navigator.of(context);
-                },
-                child: Text('Cancel'))
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+           children: [
+             Padding(
+               padding: EdgeInsets.only(top: 80.h),
+               child: Image.asset('assets/images/verify.png'),
+             ),
+             Text('Verify Email',
+               style:TextStyle(
+                   fontSize: 24.sp,
+                   fontWeight: FontWeight.bold),),
+           Text('An Email has been sent to your email address'),
+           Text(email,style: TextStyle(fontWeight: FontWeight.bold,fontSize:16.sp),),
+           Text('\nPlease click on that link to verify your email address.'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton.icon(
+                    icon: Icon(Icons.mail),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(buttonColor)
+                    ),
+                    onPressed:canResendEmail
+                        ? sendVerificationEmail
+                        : null,
+                    label: Text('Resent Email')),
+                ElevatedButton.icon(
+                    icon: Icon(Icons.logout),
+                    onPressed:(){
+                      Provider.of<AuthService>(context,listen: false).signOut();
+                      Navigator.of(context);
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(errorBackground),
+
+                    ),
+                    label: Text('Cancel'))
+              ],
+            )
           ],
       ),
-   ),
         );
 
 
