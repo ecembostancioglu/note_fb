@@ -103,11 +103,27 @@ class _NoteViewState extends State<NoteView> {
                 ),
               ),
               Positioned(
-                  bottom:-35,right:-90,
-                child: CircleAvatar(
-                  radius: 70.r,
-                  backgroundColor: colors[random.nextInt(4)],
-                ))
+                  bottom:-30,right:-90,
+                child:Container(
+                  width: 80.w,
+                  height: 80.h,
+                  margin: const EdgeInsets.all(100),
+                  decoration: BoxDecoration(
+                    color: colors[random.nextInt(8)],
+                      shape: BoxShape.circle
+                  ),
+                )),
+              Positioned(
+                  top:-60,right:-150,
+                  child:Container(
+                    width: 80.w,
+                    height: 80.h,
+                    margin: const EdgeInsets.all(100),
+                    decoration: BoxDecoration(
+                        color: colors[random.nextInt(8)],
+                        shape: BoxShape.circle
+                    ),
+                  ))
             ],
           ),
         )

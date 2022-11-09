@@ -31,7 +31,7 @@ class _DashboardState extends State<Dashboard> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton:FloatingActionButton(
             elevation: 10,
-            backgroundColor:buttonColor,
+            backgroundColor:floatingButtonColor,
             onPressed:(){
              Navigator.of(context).push(
               MaterialPageRoute(builder: (context)=>AddNote()));
@@ -39,7 +39,7 @@ class _DashboardState extends State<Dashboard> {
               child:const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        unselectedItemColor: Colors.grey.shade600,
+        unselectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels:false,
         currentIndex: currentIndex,
@@ -49,7 +49,7 @@ class _DashboardState extends State<Dashboard> {
         }),
         elevation:10,
        backgroundColor:navBarColor,
-       selectedItemColor:buttonColor,
+       selectedItemColor:Colors.white,
        items:const [
          BottomNavigationBarItem(
              icon: Icon(Icons.home),
