@@ -1,10 +1,12 @@
 import 'dart:io' as i;
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:todo_fb/constants/locale_constants.dart';
 import 'package:todo_fb/notes/database/repository/note_database.dart';
 import 'package:todo_fb/notes/database/repository/user_database.dart';
 import 'package:todo_fb/notes/domain/models/auth_user.dart';
@@ -74,6 +76,7 @@ class _SettingsState extends State<Settings> {
                               child: Image.asset('assets/images/image.png'))
                         )
                     ),
+                    Text(LocaleConstants.loginwithGoogle.myLocale),
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: Row(
@@ -113,6 +116,11 @@ class _SettingsState extends State<Settings> {
                               onChanged:(newItem)=>
                                   setState(() {
                                     dropdownvalue=newItem.toString();
+                                     if(dropdownvalue=='English'){
+                                       context.setLocale(LocaleConstants.EN_LOCALE);
+                                     }else {
+                                       context.setLocale(LocaleConstants.TR_LOCALE);
+                                     }
                                   })
                           ),
                         ],

@@ -3,9 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AppConstants{
-  static const TR_LOCALE=Locale("tr","TR");
-  static const EN_LOCALE=Locale("en","US");
-  static const LANG_PATH='assets/lang';
   static const String collectionPath='Notes';
   static const String referencePath='Users';
   static const double borderRadius=20.0;
@@ -39,19 +36,19 @@ final firebaseAuth=FirebaseAuth.instance;
 final FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
 
 final colors=[
-  const Color(0xffF2D7D9),
-  const Color(0xffD3CEDF),
-  const Color(0xff9CB4CC),
-  const Color(0xffE4BAD4),
-  const Color(0xffDFE8CC),
-  const Color(0xffC9E4C5),
-  const Color(0xffEBD8C3),
-  const Color(0xffF5C6AA),
+  const Color(0xff57699a),
+  const Color(0xff1349a0),
+  const Color(0xff55b3e5),
+  const Color(0xfff7ea84),
+  const Color(0xff2d9df8),
+  const Color(0xffb6deec),
+  const Color(0xfff6c133),
+  const Color(0xff707D9D),
 ];
 
-const Color errorBackground= Color(0xFFFE4A49);
+const Color errorBackground= Color(0xFFEE6C4D);
 const Color iconForeground=Color(0xFFFFFFFF);
-const Color buttonColor=Color(0xff645CAA);
-const Color navBarColor=Color(0xffEBC7E8);
+const Color buttonColor=Color(0xff1349a0);
+const Color navBarColor=Color(0xfff7ea84);
 const Color avatarBgColor=Color(0xffc2c2c2);
 const BorderRadius borderRad= BorderRadius.all(Radius.circular(20));

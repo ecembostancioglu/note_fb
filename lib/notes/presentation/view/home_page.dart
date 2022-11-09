@@ -98,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                                  child: NoteView(data: data));
                            })
                          ],
+
                        );
                   }}
                 )

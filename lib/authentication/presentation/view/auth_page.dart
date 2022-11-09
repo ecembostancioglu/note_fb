@@ -19,7 +19,7 @@ class AuthPage extends StatelessWidget {
        if(snapshot.hasData){
          return Dashboard();
        }else if(snapshot.connectionState==ConnectionState.waiting){
-         return CircularProgressIndicator();
+         return const CircularProgressIndicator();
        }else{
          return LoginWidget();
        }

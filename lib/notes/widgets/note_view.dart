@@ -66,40 +66,51 @@ class _NoteViewState extends State<NoteView> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: 80.h,
-          width: ScreenUtil().screenWidth,
-          decoration:BoxDecoration(
-            color:colors[random.nextInt(8)],
-              borderRadius:const BorderRadius.all(
-                  Radius.circular(AppConstants.borderRadius)),
-          ),
-          child:Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: SizedBox(
+          height: 100.h,
+          child: Stack(
+            fit: StackFit.expand,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('${widget.data['title']}',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  softWrap:false,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize:18.sp),),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('${widget.data['description']}',
-                    style: TextStyle(fontSize:16.sp),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  softWrap:false,
+              Card(
+                elevation: 6,
+                shape:RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),),
+                child:Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${widget.data['title']}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap:false,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize:18.sp),),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${widget.data['description']}',
+                        style: TextStyle(fontSize:16.sp),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap:false,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              Positioned(
+                  bottom:-35,right:-90,
+                child: CircleAvatar(
+                  radius: 70.r,
+                  backgroundColor: colors[random.nextInt(4)],
+                ))
             ],
-          ) ,
-        ),
+          ),
+        )
       ),
     );
   }

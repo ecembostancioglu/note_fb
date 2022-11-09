@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_fb/constants/locale_constants.dart';
 import 'package:todo_fb/notes/presentation/view/dashboard.dart';
 import '../../constants/app_constants.dart';
 import '../service/auth_service.dart';
@@ -83,10 +84,10 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
                         keyboardType: TextInputType.emailAddress,
                         cursorColor: Colors.white,
                         textInputAction:TextInputAction.next,
-                        decoration:const InputDecoration(
-                          border: OutlineInputBorder(),
-                            prefixIcon: Icon(Icons.mail),
-                            labelText: 'Email'
+                        decoration:InputDecoration(
+                          border:const OutlineInputBorder(),
+                            prefixIcon:const Icon(Icons.mail),
+                            labelText: LocaleConstants.email
                         ),
                       ),
                     ),

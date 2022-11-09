@@ -39,7 +39,6 @@ class _AddNoteState extends State<AddNote> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +106,8 @@ class _AddNoteState extends State<AddNote> {
                     backgroundColor:MaterialStateProperty.all(buttonColor)),
                       onPressed:(){
                       getNote();
+                      titleCtr.clear();
+                      descCtr.clear();
                       Navigator.pop(context);
                       },
                       child: const Text('Save'))
