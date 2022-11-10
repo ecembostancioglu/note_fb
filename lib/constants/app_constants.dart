@@ -15,6 +15,11 @@ class AppConstants{
   static const String description1='Take notes and capture ideas \nat a moment notice...';
   static const String description2='Search and find everything...';
   static const String description3='If you join us, click the button...';
+  static const String verifyEmail='Verify Email';
+  static const String resentEmail='Resent Email';
+  static const String cancel='Cancel';
+  static const String verifyText='An Email has been sent to your email address';
+  static const String verifyText2='\nPlease click on that link to verify your email address.';
 
 
 }

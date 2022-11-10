@@ -7,6 +7,7 @@ import 'package:todo_fb/authentication/service/auth_service.dart';
 import 'package:todo_fb/notes/presentation/view/dashboard.dart';
 
 import '../../../constants/app_constants.dart';
+import '../../widgets/icon_elevated_button.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({Key? key}) : super(key: key);
@@ -51,8 +52,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     setState(() {
       isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
     });
-    if(isEmailVerified)
+    if(isEmailVerified) {
       timer?.cancel();
+    }
   }
 
   Future sendVerificationEmail()async{
@@ -67,11 +69,15 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     }
   }
 
+  void onPressedFunction(){
+    Navigator.pop(context);
+  }
+
 
   @override
   Widget build(BuildContext context)
    => isEmailVerified
-        ? Dashboard()
+        ? const Dashboard()
         : Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -80,37 +86,43 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                padding: EdgeInsets.only(top: 80.h),
                child: Image.asset('assets/images/verify.png'),
              ),
-             Text('Verify Email',
+             Text(AppConstants.verifyEmail,
                style:TextStyle(
                    fontSize: 24.sp,
                    fontWeight: FontWeight.bold),),
-           Text('An Email has been sent to your email address'),
-           Text(email,style: TextStyle(fontWeight: FontWeight.bold,fontSize:16.sp),),
-           Text('\nPlease click on that link to verify your email address.'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
-                    icon: Icon(Icons.mail),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(buttonColor)
-                    ),
-                    onPressed:canResendEmail
+           const Text(AppConstants.verifyText),
+           Text(email,
+             style: TextStyle(
+                 fontWeight:FontWeight.bold,
+                 fontSize:16.sp),),
+             const Text(AppConstants.verifyText2),
+            Padding(
+              padding: EdgeInsets.only(top: 20.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconElevatedButton(
+                      icon:const Icon(Icons.mail),
+                      onPressed:canResendEmail
                         ? sendVerificationEmail
                         : null,
-                    label: Text('Resent Email')),
-                ElevatedButton.icon(
-                    icon: Icon(Icons.logout),
-                    onPressed:(){
-                      Provider.of<AuthService>(context,listen: false).signOut();
-                      Navigator.of(context);
-                    },
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(errorBackground),
-
+                    style:ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(buttonColor),
+                        fixedSize:MaterialStateProperty.all(Size(150, 50))
                     ),
-                    label: Text('Cancel'))
-              ],
+                    label: const Text(AppConstants.resentEmail),
+                  ),
+                  IconElevatedButton(
+                    icon:const Icon(Icons.logout),
+                    onPressed:onPressedFunction,
+                    style:ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(errorBackground),
+                        fixedSize:MaterialStateProperty.all(Size(150, 50))
+                    ),
+                    label: const Text(AppConstants.cancel),
+                  )
+                ],
+              ),
             )
           ],
       ),
